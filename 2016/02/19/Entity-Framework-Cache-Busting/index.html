@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Entity Framework Cache Busting | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The DbContext in Entity Framework 6 automatically caches data that it retrieves from your database.  This is useful, but sometimes data changes outside your context (perhaps by another user) and you e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Entity Framework Cache Busting">
+<meta property="og:url" content="http://codethug.com/2016/02/19/Entity-Framework-Cache-Busting/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="The DbContext in Entity Framework 6 automatically caches data that it retrieves from your database.  This is useful, but sometimes data changes outside your context (perhaps by another user) and you e">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.007Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Entity Framework Cache Busting">
+<meta name="twitter:description" content="The DbContext in Entity Framework 6 automatically caches data that it retrieves from your database.  This is useful, but sometimes data changes outside your context (perhaps by another user) and you e">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-Entity-Framework-Cache-Busting" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Entity Framework Cache Busting
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2016/02/19/Entity-Framework-Cache-Busting/">
+    <time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time>
+  </a>
+</div>
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The <a href="https://msdn.microsoft.com/en-us/data/jj729737.aspx" target="_blank" rel="noopener">DbContext</a> in Entity Framework 6 automatically caches data that it retrieves from your database.  This is useful, but sometimes data changes outside your context (perhaps by another user) and you end up with stale data.  How can you force Entity Framework to reload the updated data from the database, and when should you do this?</p>
+<p>There are several ways to manage this, depending on which version of Entity Framework you are using and what type of application you are writing.</p>
+<ol>
+<li>Disable Tracking using <code>AsNoTracking()</code></li>
+<li>Throw away the <code>DbContext</code> and create a new one</li>
+<li>Use an <code>ObjectQuery</code> instead of a <code>DBQuery</code> and set <code>MergeOptions</code></li>
+<li>Refresh the Entities</li>
+<li>Detatch the Entities</li>
+<li>Call GetDatabaseValues to get the updated values for a single Entity</li>
+<li>Use the stale data</li>
+</ol>
+<p>Code related to this post can be found at <a href="https://github.com/codethug/EFCaching" target="_blank" rel="noopener">https://github.com/codethug/EFCaching</a></p>
+<a id="more"></a>
+<h3 id="Problem-Caching-in-Entity-Framework-6"><a href="#Problem-Caching-in-Entity-Framework-6" class="headerlink" title="Problem: Caching in Entity Framework 6"></a>Problem: Caching in Entity Framework 6</h3><p>Before we get to the solution, we’ll take a look at the problem.  How does Entity Framework handle caching in general?  Let’s get a list of customers from the database.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> context = <span class="keyword">new</span> MyDbContext();</span><br><span class="line"><span class="keyword">var</span> customers = context.Customers.Where(c =&gt; c.State == <span class="string">"VA"</span>)</span><br><span class="line">  .Take(<span class="number">2</span>).ToList();</span><br></pre></td></tr></table></figure>
+<p>If we enumerate this <code>customers</code> object, we’ll see these results:</p>
+<pre><code>ID    Name  State
+---   ----  -----
+850   Sam   VA
+851   Sue   VA
+</code></pre><p>And if we use SQL Profiler, we can see that the LINQ query is translated by EF to this SQL query, which is sent to the database:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP (<span class="number">2</span>)</span><br><span class="line">    [Extent1].[CustomerId] <span class="keyword">AS</span> [CustomerId],</span><br><span class="line">    [Extent1].[<span class="keyword">Name</span>] <span class="keyword">AS</span> [<span class="keyword">Name</span>],</span><br><span class="line">    [Extent1].[State] <span class="keyword">AS</span> [State],</span><br><span class="line">    <span class="comment">-- a bunch of other columns --</span></span><br><span class="line">    <span class="keyword">FROM</span> [dbo].[Customers] <span class="keyword">AS</span> [Extent1]</span><br><span class="line">    <span class="keyword">WHERE</span> [Extent1].[State] = <span class="string">'VA'</span></span><br></pre></td></tr></table></figure>
+<p>That’s not surprising.  Next, we’ll update an existing record - outside of the context we created, as if another user had updated this record.  It turns out we had one of our customer’s names wrong, so the other user corrected it:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> Customers <span class="keyword">SET</span> <span class="keyword">Name</span> = <span class="string">'Susan'</span> <span class="keyword">WHERE</span> CustomerID = <span class="number">851</span></span><br></pre></td></tr></table></figure>
+<p>We’ll try to get the updated data, reusing the context from before:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">customers = context.Customers.Where(c =&gt; c.State == <span class="string">"VA"</span>).Take(<span class="number">2</span>).ToList();</span><br></pre></td></tr></table></figure>
+<p>If we check out SQL Profiler, sure enough, the exact same SQL Query as above is sent to the database again - and that SQL query returns the name ‘Susan’ for CustomerID 851.  So far, so good.  The updated data from the database is returned.</p>
+<p>However, check out what happens if we then enumerate our <code>customers</code> object:</p>
+<pre><code>ID    Name  State
+---   ----  -----
+850   Sam   VA
+851   Sue   VA
+</code></pre><p>The name is still the old name - ‘Sue’.  Why am I not seeing the name ‘Susan’?  What’s going on?  </p>
+<p>It turns out that Entity Framework uses the <a href="http://martinfowler.com/eaaCatalog/identityMap.html" target="_blank" rel="noopener">Identity Map</a> pattern.  This means that once an entity with a given key is loaded in the context’s cache, it is never loaded again for as long as that context exists.  So when we hit the database a second time to get the customers, it retrieved the updated <code>851</code> record from the database, but because customer <code>851</code> was already loaded in the context, it ignored the newer record from the database (<a href="http://rlacovara.blogspot.com/2009/03/entity-framework-patterns-identity-map.html" target="_blank" rel="noopener">more</a> <a href="http://odetocode.com/blogs/scott/archive/2008/12/08/identity-maps.aspx" target="_blank" rel="noopener">details</a>).</p>
+<p>That’s the problem.  What can we do about this?  We have several options.</p>
+<h3 id="1-Disable-Tracking-using-AsNoTracking"><a href="#1-Disable-Tracking-using-AsNoTracking" class="headerlink" title="1. Disable Tracking using AsNoTracking()"></a>1. Disable Tracking using <a href="https://msdn.microsoft.com/en-us/library/dn237200%28v=vs.113%29.aspx" target="_blank" rel="noopener">AsNoTracking()</a></h3><p>You can instruct Entity Framework to bypass the cache when making a query by using the <code>AsNoTracking()</code> method:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.Customers.Where(c =&gt; c.State == <span class="string">"VA"</span>).Take(<span class="number">2</span>).AsNoTracking();</span><br></pre></td></tr></table></figure>
+<p>This will cause Entity Framework to retrieve the data from the database, map it to the appropriate C# classes, and return a collection of them to you.  Nothing is added to the context’s cache, and nothing is read from the cache.</p>
+<p>This can be a good option if these entities are read only.  Nonetheless, if you do need to end up editing entities retrieved with <code>AsNoTracking()</code> and save the updated entities, you can always attach the edited entities to the context.</p>
+<p>More Information: <a href="http://www.c-sharpcorner.com/UploadFile/ff2f08/entity-framework-and-asnotracking/" target="_blank" rel="noopener">http://www.c-sharpcorner.com/UploadFile/ff2f08/entity-framework-and-asnotracking/</a></p>
+<h3 id="2-Throw-away-the-DbContext-and-create-a-new-one"><a href="#2-Throw-away-the-DbContext-and-create-a-new-one" class="headerlink" title="2. Throw away the DbContext and create a new one"></a>2. Throw away the <code>DbContext</code> and create a new one</h3><p>The reason we saw a problem above is because we reused the context between the two queries.  If we throw away the first context and use a new context for the second query, then nothing is cached and we get the updated data on the second query.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> (context1 = <span class="keyword">new</span> MyDbContext())</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">var</span> customers = context1.Customers.Where(c =&gt; c.State == <span class="string">"VA"</span>)</span><br><span class="line">    .Take(<span class="number">2</span>).ToList();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Update a customer between these two calls</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> (context2 = <span class="keyword">new</span> MyDbContext())</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">var</span> updatedCustomers = context2.Customers.Where(c =&gt; c.State == <span class="string">"VA"</span>)</span><br><span class="line">    .Take(<span class="number">2</span>).ToList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If the data in the database is updated between the two queries, the second query will return the updated data, because <code>context2</code> has a brand new, empty cache.</p>
+<p>How long should you hang on to a context before you throw it away?  Here is Microsoft’s recommendation on how long to hang on to a context that you create:</p>
+<blockquote>
+<p>When working with Web applications, use a context instance per request.<br>When working with Windows Presentation Foundation (WPF) or Windows Forms, use a context instance per form. This lets you use change-tracking functionality that context provides.<br><a href="https://msdn.microsoft.com/en-gb/data/jj729737.aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/en-gb/data/jj729737.aspx</a></p>
+</blockquote>
+<h3 id="3-Use-an-ObjectQuery-instead-of-a-DBQuery-and-set-MergeOptions"><a href="#3-Use-an-ObjectQuery-instead-of-a-DBQuery-and-set-MergeOptions" class="headerlink" title="3. Use an ObjectQuery instead of a DBQuery and set MergeOptions"></a>3. Use an <code>ObjectQuery</code> instead of a <code>DBQuery</code> and set <code>MergeOptions</code></h3><p>You probably have a <code>DbContext</code> that has <code>DbSet</code> properties, like this:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyDbContext</span> : <span class="title">DbContext</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> DbSet&lt;Customer&gt; Customers &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When you then query for some customers, you’ll receive back an <code>IQueryable&lt;Customer&gt;</code> object (an object with a type of <code>DbQuery&lt;Customer&gt;</code>).</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> context = <span class="keyword">new</span> MyDbContext();</span><br><span class="line"><span class="comment">// californiaCustomers is a DbQuery&lt;Customer&gt;</span></span><br><span class="line"><span class="comment">// (which is a IQueryable&lt;Customer&gt;)</span></span><br><span class="line"><span class="keyword">var</span> californiaCustomers = context.Customers.Where(c =&gt; c.State == <span class="string">"VA"</span>);</span><br></pre></td></tr></table></figure>
+<p>However, if we create an <code>ObjectQuery</code> instead of a <code>DbQuery</code>, we can set the <a href="https://msdn.microsoft.com/en-us/library/system.data.objects.mergeoption%28v=vs.110%29.aspx" target="_blank" rel="noopener"><code>MergeOption</code></a> property on the <code>ObjectQuery</code>.  This can be set to one of 4 enumerated values: <code>AppendOnly</code>, <code>NoTracking</code>, <code>OverwriteChanges</code>, and <code>PreserveChanges</code>.  Using <code>NoTracking</code> does effectively the same thing as the <code>AsNoTracking()</code> extension method we just discussed.  In our case, we want to use <code>OverwriteChanges</code>, which does the following:</p>
+<blockquote>
+<p>OverwriteChanges: Objects that do not exist in the object context are attached to the context. If an object is already in the context, the current and original values of object’s properties in the entry are overwritten with data source values. The state of the object’s entry is set to Unchanged, no properties are marked as modified.<br><a href="https://msdn.microsoft.com/en-us/library/system.data.objects.mergeoption%28v=vs.110%29.aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/library/system.data.objects.mergeoption%28v=vs.110%29.aspx</a></p>
+</blockquote>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> (<span class="keyword">var</span> context = <span class="keyword">new</span> MyDbContext(),</span><br><span class="line">  <span class="comment">// Get ObjectContext from DBContext</span></span><br><span class="line">  objectContext = ((IObjectContextAdapter)context).ObjectContext) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Construct an ObjectQuery</span></span><br><span class="line">  <span class="keyword">var</span> customers = objectContext.CreateObjectSet&lt;Customer&gt;()</span><br><span class="line">    .Where(c =&gt; c.State == <span class="string">"VA"</span>).Take(<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Set the MergeOption property</span></span><br><span class="line">  (customers <span class="keyword">as</span> ObjectQuery&lt;Customer&gt;).MergeOption =</span><br><span class="line">    MergeOption.OverwriteChanges;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Do something with your data</span></span><br><span class="line">  <span class="keyword">foreach</span>(<span class="keyword">var</span> customer <span class="keyword">in</span> customers) &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>First, we retrieve the <code>ObjectContext</code> from the <code>DbContext.</code>  <code>DbContext</code> is a wrapper around <code>ObjectContext</code> that makes many things easier, and allows for a Code First EF approach.  However, sometimes you need to get at the underlying <code>ObjectContext</code> to do things that <code>DbContext</code> doesn’t support.  This is one of those times.</p>
+<p>Once we have the <code>ObjectContext</code>, we create a <code>ObjectSet&lt;Customer&gt;</code>, off which we can build a LINQ query.  Once we’ve written our query, we have a <code>ObjectQuery&lt;Customer&gt;</code>, but the LINQ query returns it as an <code>IQueryable&lt;Customer&gt;</code>.  Once we cast it to an <code>ObjectQuery&lt;Customer&gt;</code>, we can access the <code>MergeOption</code> property and set it to <code>MergeOption.OverwriteChanges</code>.</p>
+<p>That will allow you to force EF to update the data in the cache with data from the database using a specific LINQ query.</p>
+<h3 id="4-Refresh-the-Entities"><a href="#4-Refresh-the-Entities" class="headerlink" title="4. Refresh the Entities"></a>4. Refresh the Entities</h3><p>Another way to get Entity Framework to update entities in the cache is to call the Refresh method.  The first way to do this is by issuing one SQL command for each entity that you want to refresh.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> customersToRefresh = context.Customers.Where(c =&gt; someFilter(c));</span><br><span class="line"><span class="keyword">foreach</span>(<span class="keyword">var</span> customer <span class="keyword">in</span> customersToRefresh)</span><br><span class="line">&#123;</span><br><span class="line">  context.Entry(customer).Reload();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This will suffice if you only have a couple of entities to refresh, but if you have a large collection to reload, you’ll hit the database for each and every entity that you reload, which can be a serious performance problem.</p>
+<p>You can also reload data using the <code>Refresh</code> method on the <code>ObjectContext</code>.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> objectContext = ((IObjectContextAdapter) context).ObjectContext;</span><br><span class="line"><span class="keyword">var</span> objectsToRefresh = <span class="keyword">new</span> Customer[] &#123; jim, sue &#125;;</span><br><span class="line">objectContext.Refresh(RefreshMode.StoreWins, objectsToRefresh);</span><br></pre></td></tr></table></figure>
+<p>This is better than calling <code>Reload()</code>, because it batches all of the queries together.  However, it will have to look up every entity by it’s ID, which can also cause performance problems if you’re looking up more than a few.  Here is what the SQL looks like for <code>Reload()</code>:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    [Extent1].[<span class="keyword">ID</span>] <span class="keyword">AS</span> [<span class="keyword">ID</span>],</span><br><span class="line">    [Extent1].[<span class="keyword">Name</span>] <span class="keyword">AS</span> [<span class="keyword">Name</span>],</span><br><span class="line">    [Extent1].[State] <span class="keyword">AS</span> [State]</span><br><span class="line">    <span class="keyword">FROM</span> [dbo].[Customers] <span class="keyword">AS</span> [Extent1]</span><br><span class="line">    <span class="keyword">WHERE</span> [Extent1].[<span class="keyword">ID</span>] <span class="keyword">IN</span> (<span class="number">124</span>,<span class="number">123</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="5-Detatch-the-entities"><a href="#5-Detatch-the-entities" class="headerlink" title="5. Detatch the entities"></a>5. Detatch the entities</h3><p>You can explicitly remove an entity from the cache.  Then, the next time you retrieve it from the database, the data from the database will be loaded into the cache.  </p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Load data from cache</span></span><br><span class="line"><span class="keyword">var</span> sue = context.Customers.Where(c =&gt; c.ID == <span class="number">15</span>).First();</span><br><span class="line"><span class="comment">// Detatch sue, removing her entity from the cache</span></span><br><span class="line">context.Entry(sue).State = EntityState.Detatched;</span><br><span class="line"><span class="comment">// Reload the data from the database into the cache</span></span><br><span class="line">sue = context.Customers.Where(c =&gt; c.ID == <span class="number">15</span>).First();</span><br></pre></td></tr></table></figure>
+<h3 id="6-Call-GetDatabaseValues-to-get-the-updated-values-for-a-single-Entity"><a href="#6-Call-GetDatabaseValues-to-get-the-updated-values-for-a-single-Entity" class="headerlink" title="6. Call GetDatabaseValues to get the updated values for a single Entity"></a>6. Call GetDatabaseValues to get the updated values for a single Entity</h3><p>Another way to bypass the DbContext cache is to call <code>GetDatabaseValues()</code>.  This will not affect the cache at all, but will query the database for the latest data for a particular entity, and return a dictionary with the latest data.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Retrieve stale entity from cache</span></span><br><span class="line"><span class="keyword">var</span> sue = context1.Customers.First(c =&gt; c.ID == <span class="number">15</span>);</span><br><span class="line">Console.WriteLine(sue.Name); <span class="comment">// outputs "Sue", the stale data in the cache</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Use GetDatabaseValues to get a dictionary of the current</span></span><br><span class="line"><span class="comment">// Database values (ignoring the cache)</span></span><br><span class="line">DbPropertyValues sueDbValues = context1.Entry(sueNotUpdated)</span><br><span class="line">  .GetDatabaseValues();</span><br><span class="line"><span class="comment">// outputs "Susan", the latest data from the database</span></span><br><span class="line">console.WriteLine(sueDbValues[<span class="string">"Name"</span>]);</span><br></pre></td></tr></table></figure>
+<p>For more information, see <a href="https://msdn.microsoft.com/en-us/data/jj592677.aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/data/jj592677.aspx</a>.</p>
+<h3 id="7-Use-the-stale-data"><a href="#7-Use-the-stale-data" class="headerlink" title="7. Use the stale data."></a>7. Use the stale data.</h3><p>Sometimes, the correct approach is to use the stale data in the cache.  You don’t always need the latest, most accurate data.  Sometimes old data is good enough.  </p>
+<h3 id="Caution-Deleted-Data"><a href="#Caution-Deleted-Data" class="headerlink" title="Caution: Deleted Data"></a>Caution: Deleted Data</h3><p>If another user has deleted data in the database and you have entities for those deleted items, the entities will not automatically disappear or be set to null.  They won’t even automatically have their Entity State set to <code>EntityState.Deleted</code>.  In order to get the news that these entities have been deleted, you must use one of the methods in this post to get the updated data and notice that the entity no longer exists in the result set.</p>
+<h3 id="Caution-Related-Entities"><a href="#Caution-Related-Entities" class="headerlink" title="Caution: Related Entities"></a>Caution: Related Entities</h3><p>If you retrieve <code>Customer</code> entities from your database and also <code>Include</code> related <code>Invoice</code> entities, and the related data is updated by another user, making your <code>Invoice</code> entities stale, and you use the strategies in this post to force the context to update its cache with the latest <code>Customer</code> entities, it will <em>not</em> automatically update the related <code>Invoice</code> entities.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Retrieve customers with related invoices</span></span><br><span class="line"><span class="keyword">var</span> customer = context.Customers</span><br><span class="line">  .Where(c =&gt; c.State == <span class="string">"VA"</span>)</span><br><span class="line">  .Include(c =&gt; c.Invoices)</span><br><span class="line">  .First();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Some other user updates one of the Invoices you retrieved.  </span></span><br><span class="line"><span class="comment">// Your invoice data is now stale</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Force the context to reload your customer the next time you query for it</span></span><br><span class="line">context.Entry(customer).State = EntityState.Detatched;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Reload the customer.  You'll still have stale Invoice Data</span></span><br><span class="line"><span class="keyword">var</span> customer = context.Customers</span><br><span class="line">  .Where(c =&gt; c.State == <span class="string">"VA"</span>)</span><br><span class="line">  .Include(c =&gt; c.Invoices)</span><br><span class="line">  .First();</span><br></pre></td></tr></table></figure>
+<p>If you want to get the latest Invoice data, you’ll need to clear the cache for the Invoices before you query the context again.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Detatch your invoices from the context, forcing them</span></span><br><span class="line"><span class="comment">// to be reloaded on the next query</span></span><br><span class="line"><span class="keyword">foreach</span>(<span class="keyword">var</span> invoice <span class="keyword">in</span> customer.Invoices)</span><br><span class="line">&#123;</span><br><span class="line">  context.Entry(invoice).State = EntityState.Detatched;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Reload the customer.  This time you'll see the updated Invoice entities</span></span><br><span class="line"><span class="keyword">var</span> customer = context.Customers</span><br><span class="line">  .Where(c =&gt; c.State == <span class="string">"VA"</span>)</span><br><span class="line">  .Include(c =&gt; c.Invoices)</span><br><span class="line">  .First();</span><br></pre></td></tr></table></figure>
+<h3 id="Good-News-Added-Data"><a href="#Good-News-Added-Data" class="headerlink" title="Good News: Added Data"></a>Good News: Added Data</h3><p>The good news is that if another user adds data to the database, Entity Framework’s caching mechanism will allows it to pick up on those changes, even if you don’t use any of the ideas outlined in this post.  If you have a context where you query the database, another user adds a record, and then you reuse your original context to query the database again, the second query will pick up any new records that match the query.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> (<span class="keyword">var</span> context1 = <span class="keyword">new</span> EFTestContext())</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// Get count of customers in Virginia</span></span><br><span class="line">  <span class="keyword">var</span> numInVABefore = context1.Customers.Where(c =&gt; c.State == <span class="string">"VA"</span>)</span><br><span class="line">    .ToList().Count;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Add new customer using other context (simulating a second user)</span></span><br><span class="line">  <span class="keyword">int</span> jamesID;</span><br><span class="line">  <span class="keyword">using</span> (<span class="keyword">var</span> context2 = <span class="keyword">new</span> EFTestContext())</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">var</span> james = context2.AddCustomer(<span class="string">"James"</span>, <span class="string">"VA"</span>);</span><br><span class="line">    context2.SaveChanges();</span><br><span class="line">    jamesID = james.ID;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Verify new record exists in database</span></span><br><span class="line">  <span class="keyword">using</span> (<span class="keyword">var</span> context3 = <span class="keyword">new</span> EFTestContext())</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">var</span> jamesExists = context3.Customers</span><br><span class="line">      .FirstOrDefault(c =&gt; c.ID == jamesID);</span><br><span class="line">    jamesExists.Should().NotBeNull();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// And our original context shows the new record when queried</span></span><br><span class="line">  <span class="keyword">var</span> numInVAAfter = context1.Customers.Where(c =&gt; c.State == <span class="string">"VA"</span>)</span><br><span class="line">    .ToList().Count;</span><br><span class="line">  numInVAAfter.Should().Be(numInVABefore + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="References"><a href="#References" class="headerlink" title="References:"></a>References:</h3><ul>
+<li><a href="http://stackoverflow.com/questions/15828811/entity-framework-caching-issue" target="_blank" rel="noopener">http://stackoverflow.com/questions/15828811/entity-framework-caching-issue</a></li>
+<li><a href="http://martinfowler.com/eaaCatalog/identityMap.html" target="_blank" rel="noopener">Identity Map Pattern</a></li>
+<li><a href="http://www.c-sharpcorner.com/UploadFile/ff2f08/entity-framework-and-asnotracking/" target="_blank" rel="noopener">AsNoTracking()</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2016/02/19/Entity-Framework-Cache-Busting/" data-id="ckmdrz6kq000pg0agr17ibakr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Chrome 58 and Self Signed Certificates in IIS
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/03/20/mocking-dbset/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">A Simple interface for fluently mocking a DbSet</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

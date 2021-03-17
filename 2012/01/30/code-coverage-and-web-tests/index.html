@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Code Coverage and Web Tests | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Download sample code for this blog entry here.  Code Coverage can be a helpful metric to see how much of your code is hit by the tests you have written.  Although it isn’t a way to measure how good yo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Code Coverage and Web Tests">
+<meta property="og:url" content="http://codethug.com/2012/01/30/code-coverage-and-web-tests/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="Download sample code for this blog entry here.  Code Coverage can be a helpful metric to see how much of your code is hit by the tests you have written.  Although it isn’t a way to measure how good yo">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://4.bp.blogspot.com/-Z5ZQL-TF0iE/TybVwl8td5I/AAAAAAAAAvM/73XjsI-d4zs/s1600/Solution.bmp">
+<meta property="og:image" content="http://3.bp.blogspot.com/-CmzonNHOAao/TyLsYDuX9eI/AAAAAAAAAuU/tbdJukvXhYk/s1600/DataDiagnostics.bmp">
+<meta property="og:image" content="http://4.bp.blogspot.com/-5le3eRVIAJ8/TybOBgnV10I/AAAAAAAAAus/2U4q4kTCVGo/s1600/CodeCoverageDetail.bmp">
+<meta property="og:image" content="http://4.bp.blogspot.com/-e_0t47suahE/TybO66Siv0I/AAAAAAAAAu0/k55SEXQ8kjg/s1600/LogicOnlyCovered.bmp">
+<meta property="og:image" content="http://2.bp.blogspot.com/-iOvtx9BxqIE/TybU8pdX0NI/AAAAAAAAAu8/aaoX1jcs5wc/s1600/BothCodeCoverage.bmp">
+<meta property="og:image" content="http://2.bp.blogspot.com/-6jsJQaLKgmE/TybVZVvhoOI/AAAAAAAAAvE/ABn4clstN1U/s1600/NoCoverage.bmp">
+<meta property="og:image" content="http://3.bp.blogspot.com/-DG-Cj-aFSUc/Tyb2EVq3UFI/AAAAAAAAAvU/PylHlP6sXXg/s1600/CodeCoverageFromMS.png">
+<meta property="og:image" content="http://4.bp.blogspot.com/-IJDqEvpen6Q/TyLpe5mz1SI/AAAAAAAAAuM/UQ4NftG-Jzg/s1600/RemoteCodeCoverage.bmp">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.012Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Code Coverage and Web Tests">
+<meta name="twitter:description" content="Download sample code for this blog entry here.  Code Coverage can be a helpful metric to see how much of your code is hit by the tests you have written.  Although it isn’t a way to measure how good yo">
+<meta name="twitter:image" content="http://4.bp.blogspot.com/-Z5ZQL-TF0iE/TybVwl8td5I/AAAAAAAAAvM/73XjsI-d4zs/s1600/Solution.bmp">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-code-coverage-and-web-tests" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Code Coverage and Web Tests
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2012/01/30/code-coverage-and-web-tests/">
+    <time datetime="2012-01-31T00:59:00.000Z" itemprop="datePublished">2012-01-30</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Download sample code for this blog entry <a href="https://bitsofinsanity.blob.core.windows.net/public/CodeCoverageDemo.zip" target="_blank" rel="noopener">here</a>.</p>
+<p><img src="http://4.bp.blogspot.com/-Z5ZQL-TF0iE/TybVwl8td5I/AAAAAAAAAvM/73XjsI-d4zs/s1600/Solution.bmp" alt="Solution Tree" title="Solution Tree"></p>
+<p>Code Coverage can be a helpful metric to see how much of your code is hit by the tests you have written.  Although it isn’t a way to measure how good your code is, it will at least help you to see what parts of your code have no automated tests written against them.</p>
+<div><br><br>However, you can run into some difficulties when trying to do code coverage for tests that hit a web site.  Let’s look at an example.  Suppose you are creating a web application, and you want to write tests against it.  Some of the tests will be unit tests that test out specific classes in isolation.  Other tests will be integration tests that use HTTP to test the website.  You can see the sample solution structure at the right.<br><br></div><br><div>First, we’re going to test the SampleLogic class in the Logic project.  Here is the SampleLogic class:</div><br><div></div><br><pre>public class SampleLogic<br>{<br>    public int val;<br>    public SampleLogic(int value)<br>    { this.val = value; }<br>    public int Double()<br>    { return val * 2; }<br>}</pre><br><div><br><br><a id="more"></a><br><br>Nothing too complex here - we’re doubling a number.  So let’s set up code coverage.  Under Solution Items, double-click on ‘Local.testsettings’, then under ‘Data and Diagnostics’ enable Code Coverage.<br><br></div><br><div></div><br>&nbsp;<br><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-CmzonNHOAao/TyLsYDuX9eI/AAAAAAAAAuU/tbdJukvXhYk/s1600/DataDiagnostics.bmp" target="_blank" rel="noopener"><img src="http://3.bp.blogspot.com/-CmzonNHOAao/TyLsYDuX9eI/AAAAAAAAAuU/tbdJukvXhYk/s1600/DataDiagnostics.bmp" alt></a></div><br>&nbsp;<br><div class="separator" style="clear: both; text-align: -webkit-auto;"></div><br><div>Then double-click on the Code Coverage line, and choose to instrument the CodeCoverageDemo and the Logic assemblies.  This will allow us to see what percentage of the code in these assemblies is touched in some way by the tests that we run.</div><br>&nbsp;<br><div class="separator" style="clear: both; text-align: -webkit-auto;"></div><br>&nbsp;<br><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/-5le3eRVIAJ8/TybOBgnV10I/AAAAAAAAAus/2U4q4kTCVGo/s1600/CodeCoverageDetail.bmp" target="_blank" rel="noopener"><img src="http://4.bp.blogspot.com/-5le3eRVIAJ8/TybOBgnV10I/AAAAAAAAAus/2U4q4kTCVGo/s1600/CodeCoverageDetail.bmp" alt></a></div><br>&nbsp;<br><div class="separator" style="clear: both; text-align: center;"></div><br>&nbsp;<br><div class="separator" style="clear: both; text-align: -webkit-auto;">Click OK, then Apply, Then Close.  Code Coverage is now enabled for the web project.  Next, open up the UnitTests.cs file in the Tests project.  Here is what it the UnitTests class looks like:</div><br><div></div>
+
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UnitTests</span></span><br><span class="line">&#123;</span><br><span class="line">  [<span class="meta">TestMethod</span>]</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SampleUnitTest</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    <span class="keyword">var</span> sample = <span class="keyword">new</span> SampleLogic(<span class="number">4</span>);</span><br><span class="line">    <span class="keyword">var</span> result = sample.Double();</span><br><span class="line">    Assert.AreEqual(result, <span class="number">8</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div></div><br><div>Right-click on the SampleUnitTest method, then click Run Tests.  This should run only the Unit Tests.  Based on the code seen above, it would make sense to assume that we’ll have 100% code coverage for the SampleLogic class, and 0% coverage for the CodeCoverageDemo web project assembly.</div><br><div></div><br><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/-e_0t47suahE/TybO66Siv0I/AAAAAAAAAu0/k55SEXQ8kjg/s1600/LogicOnlyCovered.bmp" target="_blank" rel="noopener"><img src="http://4.bp.blogspot.com/-e_0t47suahE/TybO66Siv0I/AAAAAAAAAu0/k55SEXQ8kjg/s1600/LogicOnlyCovered.bmp" alt></a></div><br><div class="separator" style="clear: both; text-align: center;"></div><br><div>And sure enough, that’s what we get (the CodeCoverageDemo assembly doesn’t show up because it’s 0% covered).  The SampleLogic class has 100% code coverage.  So far, so good.  Now let’s look at the integration test. We’ll be testing the loading of the Demo.aspx page.  It’s important to see the Page_Load method in the codebehind for Demo.aspx:</div><br><div></div>
+
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Page_Load</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sample = <span class="keyword">new</span> SampleLogic(<span class="number">5</span>);</span><br><span class="line">  <span class="keyword">var</span> sampleDoubled = sample.Double();</span><br><span class="line"></span><br><span class="line">  Label1.Text = “Doubled Value <span class="keyword">is</span> “ + sampleDoubled.ToString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div></div><br><div>This method should touch every line of code in the SampleLogic class.  Now let’s look at the integration test in the WebTests.cs file:</div><br><div></div>
+
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TestMethod</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SampleWebTest</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">var</span> client = <span class="keyword">new</span> WebClient();</span><br><span class="line">  <span class="keyword">var</span> result = client.DownloadString(“http:<span class="comment">//localhost:7654/Demo.aspx“);</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> contains = result.Contains(“Doubled Value <span class="keyword">is</span> <span class="number">10</span>”);</span><br><span class="line">  Assert.AreEqual(contains, <span class="literal">true</span>);        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div>Again, I would expect to see 100% code coverage after running this test.  Be sure to start the web site, then run the integration test.</div><br>This is where things get a little strange.  If I’m running the web site in Cassini or IIS Express, it works great and I see 100% code coverage for both assemblies, as seen here:<br><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-iOvtx9BxqIE/TybU8pdX0NI/AAAAAAAAAu8/aaoX1jcs5wc/s1600/BothCodeCoverage.bmp" target="_blank" rel="noopener"><img src="http://2.bp.blogspot.com/-iOvtx9BxqIE/TybU8pdX0NI/AAAAAAAAAu8/aaoX1jcs5wc/s1600/BothCodeCoverage.bmp" alt></a></div><br>However, if the site is running in IIS, Visual Studio doesn’t seem to be able to pick up on the code coverage, as seen here:<br><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-6jsJQaLKgmE/TybVZVvhoOI/AAAAAAAAAvE/ABn4clstN1U/s1600/NoCoverage.bmp" target="_blank" rel="noopener"><img src="http://2.bp.blogspot.com/-6jsJQaLKgmE/TybVZVvhoOI/AAAAAAAAAvE/ABn4clstN1U/s1600/NoCoverage.bmp" alt></a></div><br><div>So what do we do about this?  There are several options:</div><br>1. Use a <a href="http://stackoverflow.com/questions/5604273/coverage-analysis-for-functional-tests" target="_blank" rel="noopener">third party tool</a> to help get code coverage metrics.<br>2. Ensure that you have both unit and integration tests for your classes.  The integration tests are important to ensure that the web methods and pages are working from end to end, and the unit tests are important to test each piece independently.  The unit tests will be reflected in your code coverage metrics.<br><div>3. Use IIS Express or Cassini instead of IIS</div><br><strong>Code Coverage with Distributed Builds and Web Tests</strong><br>If you use TFS for your builds, and TFS is set up so that the web server is on a different box from where the tests are running, then the machine running the tests will have zero ability to determine code coverage for the DLLs on the web server, and you may see this error:<br><div>           Cannot open the ASP.Net project ‘MyProjectName’</div><br>If you see this error, you can either reconfigure TFS so that the test runner has the website running locally, or you can change the Code Coverage configuration so that it does not attempt to measure Code Coverage for the web projects.<br><div><br><br>From <a href="http://msdn.microsoft.com/en-us/library/dd286743.aspx" target="_blank" rel="noopener">http://msdn.microsoft.com/en-us/library/dd286743.aspx</a>:<br><table class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;" cellspacing="0" cellpadding="0" align="center"><br><tbody><br><tr><br><td style="text-align: center;"><a href="http://3.bp.blogspot.com/-DG-Cj-aFSUc/Tyb2EVq3UFI/AAAAAAAAAvU/PylHlP6sXXg/s1600/CodeCoverageFromMS.png" target="_blank" rel="noopener"><img src="http://3.bp.blogspot.com/-DG-Cj-aFSUc/Tyb2EVq3UFI/AAAAAAAAAvU/PylHlP6sXXg/s1600/CodeCoverageFromMS.png" alt></a></td><br></tr><br><tr><br><td class="tr-caption" style="text-align: center;">You can use code coverage only when you run an automated test from Microsoft Visual Studio 2010<br>or mstest.exe, and only from the machine that runs the test.  Remote collection is not supported.</td><br></tr><br></tbody><br></table><br></div><br><strong>Bonus Tip:</strong><br>You can either run with debugging or run with code coverage - you can’t do both at the same time.  If you try to do both, you’ll see a message like this:<br><div></div><br><table class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;" cellspacing="0" cellpadding="0" align="center"><br><tbody><br><tr><br><td style="text-align: center;"><a href="http://4.bp.blogspot.com/-IJDqEvpen6Q/TyLpe5mz1SI/AAAAAAAAAuM/UQ4NftG-Jzg/s1600/RemoteCodeCoverage.bmp" target="_blank" rel="noopener"><img src="http://4.bp.blogspot.com/-IJDqEvpen6Q/TyLpe5mz1SI/AAAAAAAAAuM/UQ4NftG-Jzg/s1600/RemoteCodeCoverage.bmp" alt></a></td><br></tr><br><tr><br><td class="tr-caption" style="text-align: center;"><span style="font-size: small; text-align: -webkit-auto;">“Debugging tests running on a remote computer or with code coverage enabled is not supported.  </span><br><span style="font-size: small; text-align: -webkit-auto;">The tests will run under the debugger locally and without code coverage enabled.”</span></td><br></tr><br></tbody><br></table><br><div><br><br><strong>Other Helpful Resources:</strong><br><a href="https://connect.microsoft.com/VisualStudio/feedback/details/650894/running-unit-tests-with-code-coverage-in-vs-2010-sp1-with-iis-express-hosted-project#tabs" target="_blank" rel="noopener">https://connect.microsoft.com/VisualStudio/feedback/details/650894/running-unit-tests-with-code-coverage-in-vs-2010-sp1-with-iis-express-hosted-project#tabs</a><br><a href="http://blogs.msdn.com/b/colinth/archive/2010/07/23/tip-fixing-vsperfaspnetcmd-metabase-errors.aspx" target="_blank" rel="noopener">http://blogs.msdn.com/b/colinth/archive/2010/07/23/tip-fixing-vsperfaspnetcmd-metabase-errors.aspx</a><br><a href="http://weblogs.asp.net/gunnarpeipman/archive/2010/05/04/how-to-configure-visual-studio-2010-code-coverage-for-asp-net-mvc-unit-tests.aspx" target="_blank" rel="noopener">http://weblogs.asp.net/gunnarpeipman/archive/2010/05/04/how-to-configure-visual-studio-2010-code-coverage-for-asp-net-mvc-unit-tests.aspx</a><br><br></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2012/01/30/code-coverage-and-web-tests/" data-id="ckmdrz6l20017g0agnz908mkk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/02/02/linkpointtransaction-dll/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          LinkPointTransaction.Dll
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/11/14/debugging-t4-templates/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Debugging T4 Templates</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

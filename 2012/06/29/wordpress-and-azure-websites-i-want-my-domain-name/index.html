@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Wordpress and Azure Websites: I want my Domain Name | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Update:  You can now point your domain name directly at your Azure Website without any of this nonsense.  Read the announcement for more details.  If you set up Wordpress on a free Azure Website, whic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wordpress and Azure Websites: I want my Domain Name">
+<meta property="og:url" content="http://codethug.com/2012/06/29/wordpress-and-azure-websites-i-want-my-domain-name/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="Update:  You can now point your domain name directly at your Azure Website without any of this nonsense.  Read the announcement for more details.  If you set up Wordpress on a free Azure Website, whic">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-FindName1.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-Forwarding.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/BST-settings1.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-JSToolbox.png">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.033Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Wordpress and Azure Websites: I want my Domain Name">
+<meta name="twitter:description" content="Update:  You can now point your domain name directly at your Azure Website without any of this nonsense.  Read the announcement for more details.  If you set up Wordpress on a free Azure Website, whic">
+<meta name="twitter:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-FindName1.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-wordpress-and-azure-websites-i-want-my-domain-name" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Wordpress and Azure Websites: I want my Domain Name
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2012/06/29/wordpress-and-azure-websites-i-want-my-domain-name/">
+    <time datetime="2012-06-29T13:00:28.000Z" itemprop="datePublished">2012-06-29</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Azure/">Azure</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Azure/Wordpress/">Wordpress</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div class="tagline">Update:  You can now point your domain name directly at your Azure Website without any of this nonsense.  Read the <a href="http://weblogs.asp.net/scottgu/archive/2012/09/17/announcing-great-improvements-to-windows-azure-web-sites.aspx" target="_blank" rel="noopener">announcement</a> for more details.</div>
+
+<p>If you set up Wordpress on a free Azure Website, which means you went with the Shared model, you may have discovered that Microsoft gives you a custom subdomain, such as <a href="http://codethug.azurewebsites.net" target="_blank" rel="noopener">http://codethug.azurewebsites.net</a>.  However, if you want to use a custom domain, such as <a href="http://codethug.com">http://codethug.com</a>, you can’t.</p>
+<p>You can try pointing directly to the IP address of your server, or you can even try using a CNAME to point to codethug.azurewebsites.net, but neither will work.</p>
+<p><address style="padding-left: 30px;"><em>Custom domains are available today, but <a href="https://www.windowsazure.com/en-us/manage/services/web-sites/how-to-configure-websites/" target="_blank" rel="noopener">only on reserved Azure Websites</a>.</em></address><address style="padding-left: 30px;"><em>Custom domains are planned for the future for shared websites, <a href="https://twitter.com/scottgu/status/210972290719031298" target="_blank" rel="noopener">according to @scottgu</a></em></address>However, with a little bit of jQuery, we can get it to work like we want, even on a shared website.</p>
+<a id="more"></a>
+<p>Here is how:</p>
+<h4 id="URL-Masking-with-an-IFrame"><a href="#URL-Masking-with-an-IFrame" class="headerlink" title="URL Masking with an IFrame"></a>URL Masking with an IFrame</h4><p>1. Find out what your Azure website address is.  You can find this at <a href="https://manage.azure.com" target="_blank" rel="noopener">https://manage.azure.com</a> under ‘Web Sites’ in the top-right corner of the screen.</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-FindName1.png" title="DNS-FindName" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-FindName1.png" alt title="DNS-FindName"></a></p>
+<p>2. Set up URL Forwarding / Domain masking with your DNS provider.  Here is what I set mine up to look like.  Note that I checked ‘Pass subdirectories.’  This is important, because if it isn’t checked and someone navigates to <a href="http://codethug.com/someotherpage">http://codethug.com/someotherpage</a>, the homepage will be loaded instead of /someotherpage.</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-Forwarding.png" title="DNS-Forwarding" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-Forwarding.png" alt title="DNS-Forwarding"></a></p>
+<p>3. Wait for your DNS entry to update (or, to be accurate, for your old DNS settings to expire).  Hopefully this won’t take more than a couple of hours.  You can continue with the next steps while you wait, but you might have some downtime while URLs don’t work quite right.</p>
+<h4 id="Tricking-Wordpress-into-Cooperating"><a href="#Tricking-Wordpress-into-Cooperating" class="headerlink" title="Tricking Wordpress into Cooperating"></a>Tricking Wordpress into Cooperating</h4><p>4. Navigate to the wordpress Dashboard, then click on Settings - General.  I ended up at <a href="http://codethug.azurewebsites.net/wp-admin/options-general.php" target="_blank" rel="noopener">http://codethug.azurewebsites.net/wp-admin/options-general.php</a>. Then set your site address to be the real DNS name that you want.  This will cause Wordpress to render the URLs with the proper domain name at the front.  <span style="color: #ff0000;">Be careful not to change the Wordpress address or lots of things will break.</span></p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/BST-settings1.png" title="Wordpress Settings" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/BST-settings1.png" alt title="Wordpress Settings"></a></p>
+<p>We’re most of the way there.  Here is where it gets interesting.  If you try out your site now, and you load the site using a link to an article, such as <a href="http://codethug.com/2012/06/18/mysql-on-azure/">http://codethug.com/2012/06/18/mysql-on-azure/</a>, and you then click on another blog article, the URL at the top will still have the original URL you landed at the site with.  Even worse, if you are reading the MySQL on Azure post, and in that post you clicks a link to another site, such as <a href="http://www.google.com" target="_blank" rel="noopener">http://www.google.com</a>, you will see google’s home page, but the URL at the top of the window will still say <a href="http://codethug.com/2012/06/18/mysql-on-azure/">http://codethug.com/2012/06/18/mysql-on-azure/</a>.  This is not good.</p>
+<p>The this happens is that the URL masking is a very simple page that has an IFrame that points to the real content.  When you navigate around in that IFrame by clicking on links, the IFrame navigates, but the outer page does not.  And the outer page is what controls the address bar in the browser.</p>
+<p>We can fix this with a small snippet of javascript.</p>
+<p>5. On your Wordpress Dashboard, go to Plugins - Add New.  I ended up at <a href="http://codethug.azurewebsites.net/wp-admin/plugin-install.php" target="_blank" rel="noopener">http://codethug.azurewebsites.net/wp-admin/plugin-install.php</a>.  Search for ‘CSS &amp; Javascript Toolbox’.  Install and activate the plugin.</p>
+<p>6. Once it is activated, you can configure it by navigating to Settings - CSS &amp; Javascript Toolbox.  In the main window that you see, add this chunk of code:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;<span class="comment">// &lt;![CDATA[</span></span><br><span class="line"></span><br><span class="line"> (<span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;</span><br><span class="line">  $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">'a'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">window</span>.parent.location = event.currentTarget.href;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);&lt;<span class="regexp">/pre&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&#125;)(jQuery);</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ ]]&gt;&lt;/</span>script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Then on the right-side of the page, check off ‘Front Page’, ‘All Posts’, and ‘All Pages.’  Also, be sure to go to the ‘Categories’ tab and check off all of the categories.</p>
+<p>Click ‘Save All Changes’ at the bottom.</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-JSToolbox.png" title="DNS-JSToolbox" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/DNS-JSToolbox.png" alt title="DNS-JSToolbox"></a></p>
+<p>So what is this doing?  Well, normally when you click on a link (an ‘anchor’ tag, which is represented by the ‘a’ element in HTML), because the link is part of a page that is in an IFrame, only the IFrame navigates.  But this little chunk of javascript intercepts all clicks for ‘a’ tags and tells the browser to get the parent (the main browser window) to navigate instead of the IFrame.</p>
+<p>And thus our problem is solved.  Users can now browse to <a href="http://www.codethug.com" target="_blank" rel="noopener">http://www.codethug.com</a> and click around, and the browser will behave appropriately, updating the address bar as needed.  This in spite of the lack of support for custom domain names with Azure Websites in shared mode.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2012/06/29/wordpress-and-azure-websites-i-want-my-domain-name/" data-id="ckmdrz6mr0043g0agjwc4gbwj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/07/06/canon-mx700/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Canon MX700
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/06/20/azure-upgrade-costs/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Azure Upgrade Costs</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

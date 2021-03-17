@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Sharepoint Thumbnails and AssetUploader.aspx | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="We recently had a consultant build a web part for us that displayed thumbnails from images in a document library. In digging around in the code they gave us I discovered that they used a page built in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sharepoint Thumbnails and AssetUploader.aspx">
+<meta property="og:url" content="http://codethug.com/2009/03/10/sharepoint-thumbnails-and-assetuploader-aspx/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="We recently had a consultant build a web part for us that displayed thumbnails from images in a document library. In digging around in the code they gave us I discovered that they used a page built in">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sharepoint Thumbnails and AssetUploader.aspx">
+<meta name="twitter:description" content="We recently had a consultant build a web part for us that displayed thumbnails from images in a document library. In digging around in the code they gave us I discovered that they used a page built in">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-sharepoint-thumbnails-and-assetuploader-aspx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Sharepoint Thumbnails and AssetUploader.aspx
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2009/03/10/sharepoint-thumbnails-and-assetuploader-aspx/">
+    <time datetime="2009-03-10T21:51:00.000Z" itemprop="datePublished">2009-03-10</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Sharepoint-WSS/">Sharepoint WSS</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>We recently had a consultant build a web part for us that displayed thumbnails from images in a document library. In digging around in the code they gave us I discovered that they used a page built into Sharepoint called AssetUploader.aspx (in 12\TEMPLATE\LAYOUTS\AssetUploader.aspx, available off any web at _layouts\AssetUploader.aspx). This page is a rather handy. It’s specifically designed to take a URL of an available image, resize it, and spit out a thumbnail. You can use it in any page or web part in Sharepoint by creating an IMG tag like this:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">”http://www.blogger.com/_layouts/AssetUploader.aspx?Size</span>=<span class="string">Medium&amp;ImageURL</span>=<span class="string">/mysitecollection/mysite/MyImagesDocumentLibrary/IMG1234.jpg“</span> <span class="attr">alt</span>=<span class="string">”My</span> <span class="attr">Image</span>” /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>If you use a size of ‘Small’, it will make the largest dimension of the image 70 pixels, and if you use anything other than small (Medium, Large, etc.), it will make the largest dimension of the image 140 pixels.<br>It worked wonderfully in our test environment, but once we brought it into production, it broke. All we saw were little generic white document icons - no thumbnails. Yikes!</p>
+<a id="more"></a>
+<p>I turned, of course, to google, and I found a very helpful <a href="http://blogs.pointbridge.com/Blogs/moore_bob/Pages/Post.aspx?_ID=14" target="_blank" rel="noopener">post from Bob Moore</a> at <a href="http://www.pointbridge.com/" target="_blank" rel="noopener">PointBridge</a>, where he explained the problem and provided some code as a solution. His code was tremendously helpful, but didn’t get me all the way there, so I went to reflector myself to try and disassemble and fix it on my own.</p>
+<p>However, interestingly, reflector couldn’t disassemble all of it. The main class I was interested in was <span style=";font-family: courier new; font-size: 85%;">Microsoft.SharePoint.Publishing.Internal.CodeBehind.AssetThumbnailerPage</span><span style="font-size: 85%;"><span style="font-size: 100%;">. </span> </span>So I opened it in reflector to find this message when I tried to disassemble the OnLoad event:</p>
+<blockquote>
+<p>This item is obfuscated and cannot be translated.</p>
+</blockquote>
+<p>I soon found that while Reflector couldn’t show me the C# code for that function, I could look at the IL code for it (to do this, click on the language drop down in the toolbar and change it from C# or Visual Basic to IL). I’d never seen this before, but once I found Microsoft’s <a href="http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes_fields.aspx" target="_blank" rel="noopener">IL reference</a>, I was able to decipher and disassemble it by hand back into C#.</p>
+<p>Here is the solution I ended up with that works well with AAM. I created a simple ASPX page containing only this:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">Assembly</span> <span class="attr">Name</span>=<span class="string">"MyAssembly, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0123456789abcdef"</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">Page</span> <span class="attr">Language</span>=<span class="string">"C#"</span> <span class="attr">Inherits</span>=<span class="string">"MyNamespace.MyAssetThumbnailerPage"</span> %&gt;</span></span><br></pre></td></tr></table></figure>
+<p>And here is the code for the MyAssetThumbnailerPage class, which I included in a DLL that gets deployed via a feature to the GAC:<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Drawing;</span><br><span class="line"><span class="keyword">using</span> Microsoft.SharePoint;</span><br><span class="line"><span class="keyword">using</span> Microsoft.SharePoint.WebControls;</span><br><span class="line"><span class="keyword">using</span> System.Security.Permissions;</span><br><span class="line"><span class="keyword">using</span> System.IO;</span><br><span class="line"><span class="keyword">using</span> System.Globalization;</span><br><span class="line"><span class="keyword">using</span> System.Drawing.Imaging;</span><br><span class="line"><span class="keyword">using</span> System.Web;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">MyNamespace</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">PermissionSet(SecurityAction.Demand, Name = <span class="meta-string">"FullTrust"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">MyAssetThumbnailerPage</span> : <span class="title">UnsecuredLayoutsPageBase</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnLoad</span>(<span class="params">EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">int</span> Size;</span><br><span class="line">            SPWeb web = <span class="literal">null</span>;</span><br><span class="line">            SPSite site = <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">string</span> ImageURL = Request.QueryString[<span class="string">"ImageURL"</span>].ToString();</span><br><span class="line">                <span class="keyword">if</span> (Request.QueryString[<span class="string">"Size"</span>].ToString() == <span class="string">"Small"</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    Size = <span class="number">70</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    Size = <span class="number">140</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Uri uri = <span class="keyword">new</span> Uri(SPContext.Current.Web.Url);</span><br><span class="line">                <span class="keyword">string</span> url = uri.Scheme + <span class="string">"://"</span> + uri.Host + ImageURL;</span><br><span class="line">                Uri uri2 = <span class="keyword">new</span> Uri(HttpContext.Current.Request.Url, url);</span><br><span class="line"></span><br><span class="line">                site = SPContext.Current.Site;</span><br><span class="line">                site = <span class="keyword">new</span> SPSite(SPContext.Current.Web.Url);</span><br><span class="line">                SPSecurity.CatchAccessDeniedException = <span class="literal">false</span>;</span><br><span class="line">                web = site.OpenWeb();</span><br><span class="line">                SPFile file;</span><br><span class="line">               file = (SPFile)web.GetFileOrFolderObject(uri2.AbsoluteUri);</span><br><span class="line">                SPSecurity.CatchAccessDeniedException = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (file == <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    Server.Transfer(<span class="string">"/_layouts/IMAGES/ICGEN.GIF"</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (!IsImageUrl(file.Url))</span><br><span class="line">                &#123;</span><br><span class="line">                    Server.Transfer(<span class="string">"/_layouts/IMAGES/"</span> + file.IconUrl);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">byte</span>[] fileBytes = MyAssetThumbnailer.CreateThumbnail</span><br><span class="line">                                                   (file.OpenBinary(),Size);</span><br><span class="line"></span><br><span class="line">                Response.OutputStream.Write(fileBytes, <span class="number">0</span>, fileBytes.Length);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">base</span>.OnLoad(e);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">base</span>.OnLoad(e);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">finally</span></span><br><span class="line">            &#123;</span><br><span class="line">                web.Close();</span><br><span class="line">                web.Dispose();</span><br><span class="line">                site.Close();</span><br><span class="line">                site.Dispose();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">IsImageUrl</span>(<span class="params"><span class="keyword">string</span> fullUrlToTest</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="keyword">string</span>.IsNullOrEmpty(fullUrlToTest))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">string</span> str = fullUrlToTest;</span><br><span class="line">                <span class="keyword">int</span> index = fullUrlToTest.IndexOf</span><br><span class="line">                                            (<span class="string">"?"</span>, StringComparison.Ordinal);</span><br><span class="line">                <span class="keyword">if</span> (<span class="number">-1</span> == index)</span><br><span class="line">                &#123;</span><br><span class="line">                    index = fullUrlToTest.IndexOf</span><br><span class="line">                                            (<span class="string">"#"</span>, StringComparison.Ordinal);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (<span class="number">-1</span> != index)</span><br><span class="line">                &#123;</span><br><span class="line">                    str = fullUrlToTest.Substring(<span class="number">0</span>, index);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">string</span> str2 = <span class="keyword">string</span>.Empty;</span><br><span class="line">                <span class="keyword">if</span> (!<span class="keyword">string</span>.IsNullOrEmpty(str))</span><br><span class="line">                &#123;</span><br><span class="line">                    index = str.LastIndexOf(<span class="string">"."</span>, StringComparison.Ordinal);</span><br><span class="line">                    <span class="keyword">if</span> (<span class="number">-1</span> != index)</span><br><span class="line">                    &#123;</span><br><span class="line">                        str2 = str.Substring(index);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//ULS.SendTraceTag(ULSTagID.tag_6osa,</span></span><br><span class="line">               <span class="comment">//ULSCat.msoulscat_CMS_Publishing, ULSTraceLevel.Medium,</span></span><br><span class="line">               <span class="comment">//"Verifying that the extension [%s] of URL ['%s' - full: " +</span></span><br><span class="line">               <span class="comment">//"'%s'] is a recognized image type.",</span></span><br><span class="line">               <span class="comment">//new object[] &#123; str2, str, fullUrlToTest &#125;);</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(str2))</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                ArrayList list = <span class="keyword">new</span> ArrayList(<span class="keyword">new</span> <span class="keyword">string</span>[] &#123; <span class="string">".bmp"</span>, <span class="string">".gif"</span>,</span><br><span class="line">                                         <span class="string">".jpeg"</span>, <span class="string">".jpg"</span>, <span class="string">".jpe"</span>, <span class="string">".png"</span> &#125;);</span><br><span class="line">                <span class="keyword">return</span> list.Contains(str2.ToLowerInvariant());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">class</span> <span class="title">MyAssetThumbnailer</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">MyAssetThumbnailer</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] <span class="title">CreateThumbnail</span>(<span class="params"><span class="keyword">byte</span>[] inputBuffer,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                      <span class="keyword">int</span> thumbMaxDimension</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            MemoryStream stream = <span class="keyword">new</span> MemoryStream(inputBuffer);</span><br><span class="line">            Bitmap bitmap = <span class="keyword">new</span> Bitmap(stream);</span><br><span class="line">            Size imageSize = bitmap.Size;</span><br><span class="line">            Size size2 =getThumbnailDimensions(imageSize, thumbMaxDimension);</span><br><span class="line">            <span class="keyword">if</span> (size2 == imageSize)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">object</span>[] objArray = <span class="keyword">new</span> <span class="keyword">object</span>[] &#123;</span><br><span class="line">                  thumbMaxDimension.ToString(CultureInfo.InvariantCulture),</span><br><span class="line">                  imageSize.Width.ToString(CultureInfo.InvariantCulture),</span><br><span class="line">                  imageSize.Height.ToString(CultureInfo.InvariantCulture),</span><br><span class="line">                  inputBuffer.Length.ToString(CultureInfo.InvariantCulture)</span><br><span class="line">               &#125;;</span><br><span class="line">                <span class="comment">//ULS.SendTraceTag(ULSTagID.tag_6osl,</span></span><br><span class="line">               <span class="comment">//ULSCat.msoulscat_CMS_Publishing, ULSTraceLevel.Medium,</span></span><br><span class="line">               <span class="comment">//"No thumbnail made - thumbnail size [%s] is greater " +</span></span><br><span class="line">               <span class="comment">//"than image dimensions[%sx%s] bytes: %s", objArray);</span></span><br><span class="line">                <span class="keyword">return</span> inputBuffer;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">object</span>[] data = <span class="keyword">new</span> <span class="keyword">object</span>[] &#123;</span><br><span class="line">              size2.Width.ToString(CultureInfo.InvariantCulture),</span><br><span class="line">              size2.Height.ToString(CultureInfo.InvariantCulture),</span><br><span class="line">              imageSize.Width.ToString(CultureInfo.InvariantCulture),</span><br><span class="line">              imageSize.Height.ToString(CultureInfo.InvariantCulture),</span><br><span class="line">              inputBuffer.Length.ToString(CultureInfo.InvariantCulture)</span><br><span class="line">           &#125;;</span><br><span class="line">            <span class="comment">//ULS.SendTraceTag(ULSTagID.tag_6osm,</span></span><br><span class="line">           <span class="comment">//ULSCat.msoulscat_CMS_Publishing, ULSTraceLevel.Medium,</span></span><br><span class="line">           <span class="comment">//"Generating thumbnail with dimensions[%sx%s] for image with " +</span></span><br><span class="line">           <span class="comment">//"dimensions[%sx%s] bytes: %s", data);</span></span><br><span class="line">            <span class="keyword">return</span> imageObjectToBytes(</span><br><span class="line">             bitmap.GetThumbnailImage(</span><br><span class="line">               size2.Width,</span><br><span class="line">               size2.Height,</span><br><span class="line">               <span class="keyword">new</span> System.Drawing.Image.GetThumbnailImageAbort</span><br><span class="line">                   (MyAssetThumbnailer.thumbnailCallback),</span><br><span class="line">               IntPtr.Zero</span><br><span class="line">             )</span><br><span class="line">           );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Size getThumbnailDimensions</span><br><span class="line">                                     (Size imageSize, <span class="keyword">int</span> thumbMaxDimension)</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ((imageSize.Height &gt; thumbMaxDimension) ||</span><br><span class="line">               (imageSize.Width &gt; thumbMaxDimension))</span><br><span class="line">            &#123;</span><br><span class="line">                SizeF ef = <span class="keyword">new</span> SizeF((<span class="keyword">float</span>)thumbMaxDimension,</span><br><span class="line">                                    (<span class="keyword">float</span>)thumbMaxDimension);</span><br><span class="line">                <span class="keyword">if</span> (imageSize.Height &lt;= imageSize.Width)</span><br><span class="line">                &#123;</span><br><span class="line">                    ef.Height = (imageSize.Height * thumbMaxDimension) /</span><br><span class="line">                                        imageSize.Width;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    ef.Width = (imageSize.Width * thumbMaxDimension) /</span><br><span class="line">                                        imageSize.Height;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (ef.Width &lt;&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    ef.Width = <span class="number">1f</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (ef.Height &lt;&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    ef.Height = <span class="number">1f</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (ef.Width &gt; thumbMaxDimension)</span><br><span class="line">                &#123;</span><br><span class="line">                    ef.Width = thumbMaxDimension;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (ef.Height &gt; thumbMaxDimension)</span><br><span class="line">                &#123;</span><br><span class="line">                    ef.Height = thumbMaxDimension;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> Size.Ceiling(ef);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> imageSize;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] imageObjectToBytes</span><br><span class="line">                                          (System.Drawing.Image imageObject)</span><br><span class="line">        &#123;</span><br><span class="line">            MemoryStream stream = <span class="keyword">new</span> MemoryStream();</span><br><span class="line">            imageObject.Save(stream, ImageFormat.Jpeg);</span><br><span class="line">            <span class="keyword">return</span> stream.ToArray();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">thumbnailCallback</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2009/03/10/sharepoint-thumbnails-and-assetuploader-aspx/" data-id="ckmdrz6m60034g0ag5hxtrzqo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2009/10/05/sql-reporting-services-sharepoint-and-firefox/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SQL Reporting Services, Sharepoint, and Firefox
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/12/04/nav-automation-object/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">NAV Automation Object</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

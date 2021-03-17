@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Azure Upgrade Costs | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="So you have an application running in Azure, running on a set of web and worker roles, and you need to upgrade it.  What do you do?  Well, you could redeploy your application to the live, production i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure Upgrade Costs">
+<meta property="og:url" content="http://codethug.com/2012/06/20/azure-upgrade-costs/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="So you have an application running in Azure, running on a set of web and worker roles, and you need to upgrade it.  What do you do?  Well, you could redeploy your application to the live, production i">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://4.bp.blogspot.com/-samDCkYEIew/TyhFNLSYqRI/AAAAAAAAAvk/6W5TisvRQlk/s640/chart.png">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.009Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Azure Upgrade Costs">
+<meta name="twitter:description" content="So you have an application running in Azure, running on a set of web and worker roles, and you need to upgrade it.  What do you do?  Well, you could redeploy your application to the live, production i">
+<meta name="twitter:image" content="http://4.bp.blogspot.com/-samDCkYEIew/TyhFNLSYqRI/AAAAAAAAAvk/6W5TisvRQlk/s640/chart.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-azure-upgrade-costs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Azure Upgrade Costs
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2012/06/20/azure-upgrade-costs/">
+    <time datetime="2012-06-20T13:00:43.000Z" itemprop="datePublished">2012-06-20</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Azure/">Azure</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>So you have an application running in Azure, running on a set of web and worker roles, and you need to upgrade it.  What do you do?</p>
+<p><div></div></p>
+<p><div>Well, you could <a href="http://msdn.microsoft.com/en-us/library/windowsazure/ff683672.aspx" target="_blank" rel="noopener">redeploy your application</a> to the live, production instances of your web and worker roles, but that would result in half an hour of downtime or so.  That’s probably not the best option if you have users that connect to your site, unless you have periods of time where it doesn’t matter if your site is down.</div></p>
+<p><div></div></p>
+<p><div>You could also do an <a href="http://msdn.microsoft.com/en-us/library/windowsazure/ee517255.aspx" target="_blank" rel="noopener">in-place upgrade</a></div><br>The third option is to do a <a href="http://msdn.microsoft.com/en-us/library/windowsazure/ee517253.aspx" target="_blank" rel="noopener">VIP Swap</a>, where you set up a completely new set of servers in Azure with the new version, then you click a button and your production IP address immediately starts routing to the new servers.</p>
+<p>The following chart, from <a href="http://blogs.technet.com/b/markrussinovich/" target="_blank" rel="noopener">Mark Russinovich</a>‘s <a href="http://channel9.msdn.com/Events/TechEd/NorthAmerica/2011/COS301" target="_blank" rel="noopener">recent talk on Azure</a>, shows some of the limitations with these three options:</p>
+<p><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/-samDCkYEIew/TyhFNLSYqRI/AAAAAAAAAvk/6W5TisvRQlk/s1600/chart.png" target="_blank" rel="noopener"><img src="http://4.bp.blogspot.com/-samDCkYEIew/TyhFNLSYqRI/AAAAAAAAAvk/6W5TisvRQlk/s640/chart.png" alt></a></div></p>
+<p><div class="separator" style="clear: both; text-align: center;"></div><br>That’s great, but how much is this going to cost?</p>
+<a id="more"></a>
+<p><strong>VIP Swap</strong><br>A VIP swap upgrade requires that you start up a new set of roles in the staging environment.  This will have an added cost, as you must pay the hourly/monthly fee for staging roles just like you do for production roles.  However, this can be minimized if you delete the staging environment when you’re done.  If you have the staging environment up for less than an hour, which seems quite possible, you can get away with paying under $1 per role for the hour that is up if they are extra large instances (or less for smaller roles).  This can be done with the following process:</p>
+<p>1. Decide you want to upgrade your app from v1 to v2<br>2. Ramp up a sufficient number of staging servers with v2, wait for them to all be ready<br>3. VIP swap<br>4. Delete/Remove the staging servers, which are now running v1 (don’t just turn them off)</p>
+<p>However, if you need to have your staging servers up for test purposes on a permanent basis, the cost of the staging servers will be whatever the monthly fee is for the staging roles, independent of the cost for the production roles.  Additionally, keep in mind that when you delete and then redeploy the staging servers, the DNS name for the staging servers will change, and it can take several hours for the new DNS name to propogate and be available for your testers.</p>
+<p><strong>In-place and Delete/Redeploy</strong><br>For an in-place upgrade or a delete and redeploy, there is no added cost, unless you are changing the number or size of the roles, which of course will mean that your monthly bill will increase.  But there is no cost associated with the upgrade itself.</p>
+<p>References:<br><a href="http://blogs.msdn.com/b/windowsazure/archive/2011/10/19/announcing-improved-in-place-updates.aspx" target="_blank" rel="noopener">http://blogs.msdn.com/b/windowsazure/archive/2011/10/19/announcing-improved-in-place-updates.aspx</a><br><a href="http://channel9.msdn.com/Events/TechEd/NorthAmerica/2011/COS301" target="_blank" rel="noopener">http://channel9.msdn.com/Events/TechEd/NorthAmerica/2011/COS301</a><br><a href="http://view.officeapps.live.com/op/view.aspx?src=http://video.ch9.ms/build/2011/slides/SAC-852F_Russinovich.pptx" target="_blank" rel="noopener">http://view.officeapps.live.com/op/view.aspx?src=http://video.ch9.ms/build/2011/slides/SAC-852F_Russinovich.pptx</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2012/06/20/azure-upgrade-costs/" data-id="ckmdrz6ku000vg0agpkb65g8s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/06/29/wordpress-and-azure-websites-i-want-my-domain-name/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Wordpress and Azure Websites: I want my Domain Name
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/06/18/mysql-on-azure/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MySQL on Azure</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>What&#39;s the Protocol? | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="On a recent project, @austegard recommended I look into using protocol-less URLs to load jQuery.  My initial reaction was that of ignorance - “what is a protocol-less URL?”  I quickly found an example">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What&#39;s the Protocol?">
+<meta property="og:url" content="http://codethug.com/2012/11/30/whats-the-protocol/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="On a recent project, @austegard recommended I look into using protocol-less URLs to load jQuery.  My initial reaction was that of ignorance - “what is a protocol-less URL?”  I quickly found an example">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://blogmedia.codethug.com/blogmedia/Protocolless-AddressBar.png">
+<meta property="og:image" content="http://blogmedia.codethug.com/blogmedia/2012/11/Protocolless-TestLink.png">
+<meta property="og:image" content="http://blogmedia.codethug.com/blogmedia/2012/11/Protocolless-TestLink2.png">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.033Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="What&#39;s the Protocol?">
+<meta name="twitter:description" content="On a recent project, @austegard recommended I look into using protocol-less URLs to load jQuery.  My initial reaction was that of ignorance - “what is a protocol-less URL?”  I quickly found an example">
+<meta name="twitter:image" content="http://blogmedia.codethug.com/blogmedia/Protocolless-AddressBar.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-whats-the-protocol" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      What&#39;s the Protocol?
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2012/11/30/whats-the-protocol/">
+    <time datetime="2012-11-30T13:00:28.000Z" itemprop="datePublished">2012-11-30</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Web/">Web</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>On a recent project, <a href="https://twitter.com/austegard" title="Oscar Austegard on Twitter" target="_blank" rel="noopener">@austegard</a> recommended I look into using protocol-less URLs to load <a href="http://jquery.com/" title="jQuery" target="_blank" rel="noopener">jQuery</a>.  My initial reaction was that of ignorance - “what is a protocol-less URL?”  I quickly found an example:</p>
+<p><a href="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" title="Protocolless URL">//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js</a></p>
+<p>When I saw it, I thought, “That doesn’t look right. It won’t work.”  But I was wrong.  Sure, it’s missing an ‘http:’ or ‘https:’ prefix, but it works just fine.  Look at the source for this page, and you’ll see that there is no ‘http’ or ‘https’ in the link above.  But if you click on it, it loads jQuery without any trouble.</p>
+<h3 id="Is-this-the-best-way"><a href="#Is-this-the-best-way" class="headerlink" title="Is this the best way?"></a>Is this the best way?</h3><p>Protocolless URLs are interesting, but what’s the point?  And what are the other options?</p>
+<p>Suppose you have a website, such as contoso.com, and your website is available on both HTTP and HTTPS - at <a href="http://www.contoso.com" target="_blank" rel="noopener">http://www.contoso.com</a> and <a href="https://www.contoso.com" target="_blank" rel="noopener">https://www.contoso.com</a>.  Next, suppose you want to load a javascript library from a different server, such as loading jQuery from the CDN link above on the ajax.googleapis.com server.</p>
+<p>How can you add a script tag that loads jQuery?  </p>
+<a id="more"></a>
+<p>There are four ways to add a reference to the jquery.min.js file:</p>
+<h4 id="1-Reference-the-HTTP-version-of-jQuery"><a href="#1-Reference-the-HTTP-version-of-jQuery" class="headerlink" title="1. Reference the HTTP version of jQuery"></a>1. Reference the HTTP version of jQuery</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>This is the worst option, because when a user hits your site over HTTPS (at <a href="https://www.contoso.com)" target="_blank" rel="noopener">https://www.contoso.com)</a>, they will get nasty browser warning errors about mixed security, or their browser might silently not load jQuery.  This is because the browser is connecting to a secure site and is reluctant to load insecure (HTTP) resources.</p>
+<h4 id="2-Reference-the-HTTPS-version-of-jQuery"><a href="#2-Reference-the-HTTPS-version-of-jQuery" class="headerlink" title="2. Reference the HTTPS version of jQuery"></a>2. Reference the HTTPS version of jQuery</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>This will get around the browser warnings, described in option 1, but it introduces an inefficiency - SSL is always used to load the jquery library, even when the user is hitting your site without SSL (<a href="http://www.contoso.com)" target="_blank" rel="noopener">http://www.contoso.com)</a>.  Your site can load faster if you can remove this SSL dependency.</p>
+<h4 id="3-Use-a-snippet-of-javascript-to-load-a-reference"><a href="#3-Use-a-snippet-of-javascript-to-load-a-reference" class="headerlink" title="3. Use a snippet of javascript to load a reference"></a>3. Use a snippet of javascript to load a reference</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(‘https:’==<span class="built_in">document</span>.location.protocol ? <span class="string">'https://....'</span> : <span class="string">'http://....'</span>)</span><br></pre></td></tr></table></figure>
+<p>This will ensure that the proper protocol (HTTP or HTTPS) is used for loading jQuery, but this makes it much more tricky to add references to javascript libraries, and you can no longer have a simple script tag on your page for loading resources like jQuery.</p>
+<h4 id="4-Reference-jQuery-without-a-protocol"><a href="#4-Reference-jQuery-without-a-protocol" class="headerlink" title="4. Reference jQuery without a protocol"></a>4. Reference jQuery without a protocol</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>This is the best option (and is <a href="https://developers.google.com/speed/libraries/devguide#jquery" target="_blank" rel="noopener">recommended by Google</a>), because when users connect to your insecure site (<a href="http://www.contoso.com)" target="_blank" rel="noopener">http://www.contoso.com)</a>, jQuery will load over HTTP, and when users connect to your secure site (<a href="https://www.contoso.com)" target="_blank" rel="noopener">https://www.contoso.com)</a>, jQuery will load over HTTPS.</p>
+<div>Using a protocolless URL to include jQuery on your page (option 4) is, in my opinion, the best choice when you need to load resources from another server and when your site is available over both HTTP and HTTPS.</div><br><div><span style="line-height: 18px;"><br></span></div>
+
+<h3 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h3><p>In order for a protocolless URL to work well, you need to ensure that the resource being linked to is available over both HTTP and HTTPS.  In the example above, that means that jquery needs to be available at both of these URLs:</p>
+<p><a href="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" title="HTTP Reference to jQuery" target="_blank" rel="noopener">http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js</a><br><a href="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" title="HTTPS Reference to jQuery" target="_blank" rel="noopener">https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js</a></p>
+<p>The reason for this is that some users will be on a HTTP page, and thus load jQuery via HTTP, while others will be on a HTTPS page, and thus load jQuery via HTTPS.</p>
+<h3 id="Will-it-work"><a href="#Will-it-work" class="headerlink" title="Will it work?"></a>Will it work?</h3><p>I was a bit unsure of this at first, but after testing it out, it seems to work well on Firefox, IE, and Chrome (I didn’t test any other browsers).  So the support seems to be there.  But is this just some weird quirk of URLs, or is it intentional?  Interestingly, URLs are supposed to work like this - If you look at <a href="http://tools.ietf.org/html/rfc3986#section-4.2" title="RFC 3986 - Uniform Resource Identifier (URI): Generic Syntax" target="_blank" rel="noopener">RFC 3986</a>, you can see that protocolless URL is a proper, well formed URL according to internet standards.  According to the RFC, a protocolless URL is properly identified as a “network-path reference,” but I prefer the term protocolless URL, as it’s easier to remember and more descriptive.</p>
+<h4 id="Address-Bar"><a href="#Address-Bar" class="headerlink" title="Address Bar"></a>Address Bar</h4><p>You can type a protocolless URL into your browser bar, and it will work, defaulting to HTTP</p>
+<p><img src="http://blogmedia.codethug.com/blogmedia/Protocolless-AddressBar.png" alt></p>
+<h4 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h4><p>You can create an anchor tag with a protocolless URL on your page, and the link will pick up the protocol of the page that it’s on.  In the screenshots, notice that since the protocol is not specified, the protocol in the tooltip matches the protocol in the address bar.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"</span>&gt;</span>Test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://blogmedia.codethug.com/blogmedia/2012/11/Protocolless-TestLink.png" title="Protocolless-TestLink" target="_blank" rel="noopener"><img src="http://blogmedia.codethug.com/blogmedia/2012/11/Protocolless-TestLink.png" alt title="Protocolless-TestLink"></a></p>
+<p><a href="http://blogmedia.codethug.com/blogmedia/2012/11/Protocolless-TestLink2.png" title="Protocolless-TestLink2" target="_blank" rel="noopener"><img src="http://blogmedia.codethug.com/blogmedia/2012/11/Protocolless-TestLink2.png" alt title="Protocolless-TestLink2"></a></p>
+<h4 id="CSS-JS-References"><a href="#CSS-JS-References" class="headerlink" title="CSS/JS References"></a>CSS/JS References</h4><p>You can use protocolless URLs to add CSS or JS resources to your page</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Warnings"><a href="#Warnings" class="headerlink" title="Warnings"></a>Warnings</h3><p>It won’t work everywhere. There are some link parsers that may not be happy with it, such as some CMS WYSIWYG editors that might not accept a protocolless URL as valid.  Other tools or libraries might mangle a protocolless URL, so be sure to test this out before deploying.  But browsers support protocolless URLs, so as long as the javascript libraries and WYSIWYG editors on your site don’t mess things up, you should be fine.</p>
+<p>Also, it appears that if you use a protocolless URL to reference a CSS file, IE7 and IE8 will download the CSS file twice.  If only we could get everyone to move up to IE9…</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>Dave Ward - <a href="http://encosia.com/cripple-the-google-cdns-caching-with-a-single-character" target="_blank" rel="noopener">http://encosia.com/cripple-the-google-cdns-caching-with-a-single-character</a><br>Steve Souders - <a href="http://www.stevesouders.com/blog/2010/02/10/5a-missing-schema-double-download" target="_blank" rel="noopener">http://www.stevesouders.com/blog/2010/02/10/5a-missing-schema-double-download</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2012/11/30/whats-the-protocol/" data-id="ckmdrz6mp0040g0agn9i9jm6k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/12/14/cookies-and-iframes-dont-mix/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Cookies and IFrames Don&#39;t Mix
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/10/05/the-7-types-of-estimates/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">The 7 Types of Estimates</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

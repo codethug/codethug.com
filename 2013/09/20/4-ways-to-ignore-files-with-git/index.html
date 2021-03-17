@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>4 Ways to Ignore Files with Git | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="It’s Greek to meWhile working on a pull request for Knockout-Validation, I had the most bizarre thing happen: after cloning the repository, git status told me that one of the files was already modifie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4 Ways to Ignore Files with Git">
+<meta property="og:url" content="http://codethug.com/2013/09/20/4-ways-to-ignore-files-with-git/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="It’s Greek to meWhile working on a pull request for Knockout-Validation, I had the most bizarre thing happen: after cloning the repository, git status told me that one of the files was already modifie">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.006Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4 Ways to Ignore Files with Git">
+<meta name="twitter:description" content="It’s Greek to meWhile working on a pull request for Knockout-Validation, I had the most bizarre thing happen: after cloning the repository, git status told me that one of the files was already modifie">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-4-ways-to-ignore-files-with-git" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      4 Ways to Ignore Files with Git
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2013/09/20/4-ways-to-ignore-files-with-git/">
+    <time datetime="2013-09-20T18:05:28.000Z" itemprop="datePublished">2013-09-20</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Git/">Git</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="It’s-Greek-to-me"><a href="#It’s-Greek-to-me" class="headerlink" title="It’s Greek to me"></a>It’s Greek to me</h3><p>While working on a <a href="https://github.com/Knockout-Contrib/Knockout-Validation/pull/324" title="My Pull Request: Min and Max attributes now rely on type attribute for comparison" target="_blank" rel="noopener">pull request</a> for <a href="https://github.com/Knockout-Contrib/Knockout-Validation" title="Knockout Validation on GitHub" target="_blank" rel="noopener">Knockout-Validation</a>, I had the most bizarre thing happen: after cloning the repository, <code>git status</code> told me that one of the files was already modified.  It turned out to be the localized text strings for Greek.  Considering that I had just cloned the repository and that I don’t speak any Greek, I was fairly certain I hadn’t actually changed the file.  I tried to undo changes with <code>git checkout Localization/el-GR.js</code>, but the file was still checked out.  It seemed impossible to ‘undo’ whatever mysterious change had happened.</p>
+<h3 id="Google-failed-me"><a href="#Google-failed-me" class="headerlink" title="Google failed me"></a>Google failed me</h3><p>After a few rounds of Google-fu, my best guess was that something had happened related to character encoding, and some strange interaction between Git and Windows caused Git to think the file had changed.  The best advice I found on the matter was to make a copy of the file elsewhere, delete the file from the repository, check in the deletion, copy the file back, add the file to the repository, commit the add, then carry on with other work.  However, since I’m making changes on someone else’s project, I didn’t want to get into a conversation with them about why I’m changing the encoding around on one of their internationalization files when I really wanted to work on changing how the min and max validators worked.</p>
+<h3 id="4-Ways-to-Ignore-a-File"><a href="#4-Ways-to-Ignore-a-File" class="headerlink" title="4 Ways to Ignore a File"></a>4 Ways to Ignore a File</h3><p>While chatting with <a href="http://twitter.com/deathbob" title="Bob Larrick" target="_blank" rel="noopener">@deathbob</a> and <a href="http://twitter.com/jeremy6d" title="Jeremy Weiland" target="_blank" rel="noopener">@jeremy6d</a> about the matter, Bob brought up the idea of ignoring the file by adding it to .gitignore.  A good idea, but doing so would then mean that I would check in an updated .gitignore, which other team members wouldn’t like (especially the one who contributed the greek translation).  Additionally, .gitignore won’t ignore files that are already part of the repository, so adding the file to .gitignore didn’t work.  </p>
+<p>However, the crux of Bob’s idea - ignoring the file - was exactly what I needed.  I wasn’t sure why the Greek translation file was messed up (probably something with my system), but if I could ignore the file then I could focus on that files I actually cared about and not get sidetracked.  </p>
+<p>It turns out that there are 4 ways to <a href="https://help.github.com/articles/ignoring-files" title="Ignoring Files with Git" target="_blank" rel="noopener">ignore files with Git</a>, and one of them solved my problem.</p>
+<ol>
+<li>.gitignore</li>
+<li>Global .gitignore</li>
+<li>Repository Exclude</li>
+<li>Ignoring Versioned Files</li>
+</ol>
+<a id="more"></a>
+<h4 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h4><p>I already knew about this option.  You add a file to your .gitignore file, and git will ignore it - it won’t show up in the list of modified files.</p>
+<p>It will ignore it - unless it’s already been added to your git repository.  Then adding it to .gitignore does nothing.  Since <code>el-GR.js</code> was already part of Knockout-Validation, it was already in the repository, and thus ignoring it with .gitignore did not work.</p>
+<p>Additionally, even if this did work, it would involve modifying .gitignore, which is part of the project, and then .gitignore would show up as modified.  The project maintainers would likely not accept a pull request with a modification to .gitignore that was ignoring a file that was actually part of the project.</p>
+<p>So .gitignore didn’t help.</p>
+<h4 id="Global-gitignore"><a href="#Global-gitignore" class="headerlink" title="Global .gitignore"></a>Global .gitignore</h4><p>This is similar to .gitignore, but it exists outside of the project, and if affects all projects.  But because this also doesn’t work for files that are already part of a repository, this didn’t help either.</p>
+<h4 id="Repository-Exclude"><a href="#Repository-Exclude" class="headerlink" title="Repository Exclude"></a>Repository Exclude</h4><p>The Repository Exclude helps when you want to ignore certain files in a single repository, but you don’t want it to be in the .gitignore file that is checked in with the project.  Another helpful option, but again, this did not help because the file in question was already part of the repository.</p>
+<h4 id="Ignoring-Versioned-Files"><a href="#Ignoring-Versioned-Files" class="headerlink" title="Ignoring Versioned Files"></a>Ignoring Versioned Files</h4><p>The last option is what I needed.  This allowed me to tell git to ignore a specific file, even though it was already part of a project.  All changes I make to it will be ignored.  This is exactly what I needed.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git update-index --assume-unchanged Localization/el-GR.js</span><br></pre></td></tr></table></figure>
+<p>Of course, if you intentionally change this file in the future, it won’t show up in the list of modified files, and you could easily forget to check it in.  But since I don’t expect to be modifying the Greek language strings, I don’t think this will be a problem for me.</p>
+<h3 id="Ignore-Me"><a href="#Ignore-Me" class="headerlink" title="Ignore Me"></a>Ignore Me</h3><p>Although I never figured out why the Greek translation file was irreversibly modified, I didn’t need to.  I ignored the file and was able to continue on with my work.  </p>
+<p>I’m slowly learning git, one command at a time…</p>
+<h5 id="References"><a href="#References" class="headerlink" title="References:"></a>References:</h5><p><a href="https://help.github.com/articles/ignoring-files" title="Ignoring Files with Git" target="_blank" rel="noopener">Git documentation on ignoring files</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2013/09/20/4-ways-to-ignore-files-with-git/" data-id="ckmdrz6kk000gg0agjv24uii9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/03/07/asp-net-bundling-and-minification-no-dots-allowed/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ASP.Net Bundling and Minification - No Dots Allowed
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/08/02/using-net-resources-in-javascript/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Using .Net Resources in Javascript</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

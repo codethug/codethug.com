@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Installing WordPress on an Azure Website | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I’ve been a fan of Azure for a while now, but some of my coworkers, @cromwellryan and @stevemgentile, have compared it with Heroku and found it to be lacking.  Heroku hosts web applications that have">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Installing WordPress on an Azure Website">
+<meta property="og:url" content="http://codethug.com/2012/06/15/installing-wordpress-on-an-azure-website/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="I’ve been a fan of Azure for a while now, but some of my coworkers, @cromwellryan and @stevemgentile, have compared it with Heroku and found it to be lacking.  Heroku hosts web applications that have">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-New.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-PreviewSignup.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-PreviewFeatures.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-WebSitesTryItNow.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Subscription.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Queued.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-QueueTime.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-FromGallery-300x254.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Wordpress1.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-NameBlog.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-DBCreate.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Creating.png">
+<meta property="og:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-WordpressSetup.png">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.016Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Installing WordPress on an Azure Website">
+<meta name="twitter:description" content="I’ve been a fan of Azure for a while now, but some of my coworkers, @cromwellryan and @stevemgentile, have compared it with Heroku and found it to be lacking.  Heroku hosts web applications that have">
+<meta name="twitter:image" content="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-New.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-installing-wordpress-on-an-azure-website" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Installing WordPress on an Azure Website
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2012/06/15/installing-wordpress-on-an-azure-website/">
+    <time datetime="2012-06-15T13:00:11.000Z" itemprop="datePublished">2012-06-15</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Azure/">Azure</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’ve been a fan of Azure for a while now, but some of my coworkers, <a href="https://twitter.com/#!/cromwellryan" target="_blank" rel="noopener">@cromwellryan</a> and <a href="https://twitter.com/#!/cromwellryan" target="_blank" rel="noopener">@stevemgentile</a>, have compared it with <a href="http://www.heroku.com/" title="Heroku" target="_blank" rel="noopener">Heroku</a> and found it to be lacking.  Heroku hosts web applications that have cloud scale an can be quickly deployed with git.  Microsoft has apparently heard these complaints and recently released <a href="https://www.windowsazure.com/en-us/home/scenarios/web-sites/" target="_blank" rel="noopener">Azure Web Sites</a>.</p>
+<p>So what is an Azure website and how does it compare with what we’ve had in the past with Web and Worker Roles?  And how do you create a website with Azure websites?</p>
+<p>This is the first of a 2-part series of posts:</p>
+<ol>
+<li>Setup of Wordpress on Azure websites</li>
+<li>Migrating a blog from Blogspot to Wordpress on Azure websites<div>Let’s get started.</div>
+
+</li>
+</ol>
+<a id="more"></a>
+<h2 id="What’s-the-difference"><a href="#What’s-the-difference" class="headerlink" title="What’s the difference?"></a>What’s the difference?</h2><p>How are Azure websites any different from what Microsoft already provided with Web and Worker roles?</p>
+<p>Web / Worker Role:</p>
+<ol>
+<li>Difficult to package and deploy outside of Visual Studio</li>
+<li>Deployment takes several minutes</li>
+<li>You have full control of the VM that your website is running on.  You can install anything you want - windows services, MSIs, command line tools, apache, ruby, etc.</li>
+<li>Full Control of IIS.  You can even turn it off and uninstall it if you want.</li>
+<li>Can connect to VM with remote desktop to troubleshoot problems.</li>
+<li>Role Environment.  (I haven’t found much value in these libraries, but maybe others have)</li>
+<li>Can setup custom domain name (such as <a href="http://www.mywebsite.com" target="_blank" rel="noopener">www.mywebsite.com</a>) with SSL certificate</li>
+<li><p>Can have hundreds (or more) Web Roles running in a load balanced fashion for high scale.<br>Azure Website:</p>
+</li>
+<li><p>No packaging needed, can be deployed with git, FTP, web deploy, or Visual Studio</p>
+</li>
+<li>Deployment takes only seconds</li>
+<li>Restricted to environment similar to other shared hosting environments - you can’t touch anything outsite your website’s folder.  You can’t install alternate web server software.  Only .Net, Node.js, and PHP applications are supported (all run on IIS).</li>
+<li>No control of IIS outsite of your own website.</li>
+<li>No remote desktop available (related to previous point)</li>
+<li>No Role Environment - some people consider this a plus, because making use of the Role Environment makes it more difficult to host your application outside of Azure.</li>
+<li>Unless you set up a reserved instance for your website, you cannot setup a custom domain name, such as <a href="http://www.mywebsite.com" target="_blank" rel="noopener">www.mywebsite.com</a> (Yet.  Apparently <a href="http://social.msdn.microsoft.com/Forums/en-US/windowsazurepurchasing/thread/17504ce0-c9d6-4ebf-a800-9db4fe6c004e?prof=required" target="_blank" rel="noopener">it’s in the works</a> for shared websites).  SSL certs are available and free, but they are only for names like mywebsite.azurewebsites.net.</li>
+<li><p>Can have at most 3 reserved website servers running in a load balanced fashion.  This is likely a limitation of the preview, but we don’t know what this will look like post-preview.<br>And some similarities:</p>
+</li>
+<li><p>High Availability with Load balancing</p>
+</li>
+<li>Can scale up and down on demand</li>
+<li>Can use the other Azure services, such as Tables, Blobs, Queues, SQL Azure,  Access Control, Service Bus, etc.</li>
+<li>Both Azure Websites and Azure Web Roles can make use of Worker Roles to assist with background processing of data, but Worker Roles must be deployed separately from Azure Websites.</li>
+</ol>
+<h2 id="Pricing"><a href="#Pricing" class="headerlink" title="Pricing"></a>Pricing</h2><p>How much will this cost?</p>
+<p>For now, shared hosting of Azure websites is free, and you can create up to 10 Azure websites.   An Azure website on a reserved VM is $0.08 per hour, or about $57.60 per month (this is the same cost as a small Azure VM without the websites functionality).</p>
+<p>The 1 MySQL database you can have is free for now, but is limited to 20MB in size.</p>
+<p>SQL Azure, if used, is an additional cost, starting at $5 per month for a 100MB database.</p>
+<p>Outgoing bandwidth is $0.12 per GB for outbound data (inbound data is free).  So if your website has 100GB of outbound data per month, you’ll pay $12 per month for bandwidth charges.</p>
+<p>For more details on the cost for using Azure websites, see <a href="https://www.windowsazure.com/en-us/pricing/calculator/" target="_blank" rel="noopener">https://www.windowsazure.com/en-us/pricing/calculator/</a> and <a href="https://www.windowsazure.com/en-us/pricing/details/" target="_blank" rel="noopener">https://www.windowsazure.com/en-us/pricing/details/</a>.</p>
+<h2 id="Custom-or-Pre-Built"><a href="#Custom-or-Pre-Built" class="headerlink" title="Custom or Pre-Built?"></a>Custom or Pre-Built?</h2><p>Assuming you want an Azure Website, there are two approaches to creating it - you can build one yourself in .Net, PHP, or Node.js.  Alternately, you can use a pre-built site including Wordpress, Drupal, Dot Net Nuke, Joomla, Orchard, etc.</p>
+<p>For your data needs, you can still use Azure storage such ast Tables, Blobs, and Queues.  If you need relational data storage, Microsoft can provide either a SQL Server backend or a MySQL backend.  Yes, you heard that right - Microsoft is now providing hosted MySQL database services (via <a href="http://www.cleardb.com/" target="_blank" rel="noopener">ClearDB</a>).  More on MySQL in my next post.</p>
+<h2 id="Creating-an-Azure-Website"><a href="#Creating-an-Azure-Website" class="headerlink" title="Creating an Azure Website"></a>Creating an Azure Website</h2><p>1. You need to have a Windows Azure account.  If you don’t have one, go to <a href="https://www.windowsazure.com/en-us/" target="_blank" rel="noopener">https://www.windowsazure.com</a> and click on ‘Free Trial’ in the top right for a 90 day trial.</p>
+<p>2. Connect to the new management portal at <a href="https://manage.windowsazure.com/" target="_blank" rel="noopener">manage.windowsazure.com</a>.</p>
+<p>3. Click the ‘New’ button in the bottom-left</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-New.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-New.png" alt title="New Button"></a></p>
+<p>3. Click on ‘Web Site’.  If you haven’t yet signed up for the preview, click on the ‘preview program’ link.  (If you’ve already signed up, skip to step 7).</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-PreviewSignup.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-PreviewSignup.png" alt title="WAW-PreviewSignup"></a></p>
+<p>4. Click ‘Preview Features’ at the top of the screen</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-PreviewFeatures.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-PreviewFeatures.png" alt title="WAW-PreviewFeatures"></a></p>
+<p>5. In the ‘Web Sites’ section, click the green ‘try it now’ button</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-WebSitesTryItNow.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-WebSitesTryItNow.png" alt title="WAW-WebSitesTryItNow"></a></p>
+<p>6. Choose the subscription (i.e., billing entity) to enable for the preview and click the check mark in the bottom-right corner.</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Subscription.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Subscription.png" alt title="WAW-Subscription"></a></p>
+<p>6. You will then notice that under the green button it tells you that you are queued for the upgrade.  You can click on ‘Status’ to find out how long you will have to wait.  Once the upgrade is finished, navigate back to <a href="https://manage.windowsazure.com/" target="_blank" rel="noopener">manage.windowsazure.com</a> and click the ‘New’ button in the bottom-left again.</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Queued.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Queued.png" alt title="WAW-Queued"></a></p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-QueueTime.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-QueueTime.png" alt title="WAW-QueueTime"></a></p>
+<p>7. Choose ‘WEB SITE’ - ‘FROM GALLERY’</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-FromGallery.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-FromGallery-300x254.png" alt title="From Gallery"></a></p>
+<p>5. Choose ‘Blogs’, then ‘Wordpress’, then click the right-arrow in the bottom-right</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Wordpress1.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Wordpress1.png" alt title="WAW-Wordpress"></a></p>
+<p>6. Choose a name for your blog.  For this example, I chose BestBlogEver, which will be available at BestBlogEver.azurewebsites.net (you can set up a normal DNS name later if you want, such as <a href="http://www.bestblogever.com)" target="_blank" rel="noopener">www.bestblogever.com)</a>.  Then decide to use an existing or new MySQL database, and choose the region for the app to reside in.  Then click the right-arrow in the bottom-right.</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-NameBlog.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-NameBlog.png" alt title="Name Your Blog"></a></p>
+<p>7. Choose a name for your database (I left the default), and the region for the database.  I would highly recommend using the same region you just chose in the previous screen so that your web server and database server are in the same data center.   Check the checkbox to agree to the terms and click the check mark in the bottom right corner.</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-DBCreate.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-DBCreate.png" alt title="WAW-DBCreate"></a></p>
+<p>8. You will then see your web site being deployed, and when it is ready the status will update to ‘Running.’  Click the link for your blog on the right to navigate to your blog.</p>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Creating.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-Creating.png" alt title="WAW-Creating"></a></p>
+<ol start="9">
+<li>This will bring you to the Wordpress configuration screen where you can configure your blog.  Fill out the form, click Install, then login, and you will then have your own custom installation WordPress on a Windows Azure Website with your own dedicated MySQL database.</li>
+</ol>
+<p><a href="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-WordpressSetup.png" target="_blank" rel="noopener"><img src="http://codethug.azurewebsites.net/wp-content/uploads/2012/06/WAW-WordpressSetup.png" alt title="WAW-WordpressSetup"></a></p>
+<h2 id="Coming-up-next…"><a href="#Coming-up-next…" class="headerlink" title="Coming up next…"></a>Coming up next…</h2><p>Coming soon, I’ll discuss how I migrated my blog from Blogspot to Wordpress on Azure websites.  This will include showing how to:</p>
+<ol>
+<li>Configure Wordpress</li>
+<li>Import posts and comments from Blogspot</li>
+<li>Choosing and setting up a theme</li>
+<li>Setting up 301 redirects</li>
+<li>DNS setup so you have your own domain name<br>Resources:</li>
+</ol>
+<ul>
+<li><a href="https://www.windowsazure.com/en-us/home/scenarios/web-sites/" target="_blank" rel="noopener">https://www.windowsazure.com/en-us/home/scenarios/web-sites/</a></li>
+<li><a href="http://www.hanselman.com/blog/WindowsAzureNoKidding.aspx" target="_blank" rel="noopener">http://www.hanselman.com/blog/WindowsAzureNoKidding.aspx</a></li>
+<li><a href="http://weblogs.asp.net/scottgu/archive/2012/06/07/meet-the-new-windows-azure.aspx" target="_blank" rel="noopener">http://weblogs.asp.net/scottgu/archive/2012/06/07/meet-the-new-windows-azure.aspx</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2012/06/15/installing-wordpress-on-an-azure-website/" data-id="ckmdrz6lb001og0agededvzt2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/06/18/mysql-on-azure/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL on Azure
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/24/knockout-and-click-to-edit/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Knockout and Click-to-Edit</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Cookies and IFrames Don&#39;t Mix | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I’m not a fan of IFrames.  Let’s just get that out on the table to start with.  Every time I use one, it’s against my will and I always feel like it’s a kludge.  There - I said it. Why am I upset with">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cookies and IFrames Don&#39;t Mix">
+<meta property="og:url" content="http://codethug.com/2012/12/14/cookies-and-iframes-dont-mix/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="I’m not a fan of IFrames.  Let’s just get that out on the table to start with.  Every time I use one, it’s against my will and I always feel like it’s a kludge.  There - I said it. Why am I upset with">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://blogmedia.codethug.com/blogmedia/cookie-null.png">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.013Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cookies and IFrames Don&#39;t Mix">
+<meta name="twitter:description" content="I’m not a fan of IFrames.  Let’s just get that out on the table to start with.  Every time I use one, it’s against my will and I always feel like it’s a kludge.  There - I said it. Why am I upset with">
+<meta name="twitter:image" content="http://blogmedia.codethug.com/blogmedia/cookie-null.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-cookies-and-iframes-dont-mix" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Cookies and IFrames Don&#39;t Mix
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2012/12/14/cookies-and-iframes-dont-mix/">
+    <time datetime="2012-12-14T13:00:12.000Z" itemprop="datePublished">2012-12-14</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Javascript/">Javascript</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I’m not a fan of IFrames.  Let’s just get that out on the table to start with.  Every time I use one, it’s against my will and I always feel like it’s a kludge.  There - I said it.</p>
+<p>Why am I upset with IFrames today?  I was trying to set some cookies in a IFrame, where the IFrame was loaded from a different domain from the main page, and the cookies refused to set.  I was using the jQuery <a href="https://github.com/carhartl/jquery-cookie" title="jQuery Cookie Plugin" target="_blank" rel="noopener">Cookie plugin</a>, and my code looked like this:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$.cookie(<span class="string">'myCookie'</span>, <span class="string">'Chocolate Chip'</span>);</span><br><span class="line">alert($.cookie(<span class="string">'myCookie'</span>);</span><br></pre></td></tr></table></figure>
+<p>And this is what I saw:</p>
+<p><img src="http://blogmedia.codethug.com/blogmedia/cookie-null.png" alt></p>
+<p>I was expecting to have ‘Chocolate Chip’ be shown in the alert.  No such luck - my cookie was eaten by the browser.</p>
+<a id="more"></a>
+<h3 id="What’s-going-on"><a href="#What’s-going-on" class="headerlink" title="What’s going on?"></a>What’s going on?</h3><p>This is the <a href="http://www.w3.org/P3P/" title="P3P on W3.org" target="_blank" rel="noopener">Platform for Privacy Preferences</a> (P3P) at work.  In short, it was an attempt to  help improve privacy on the web by requiring websites to encode their Privacy Policy via a special HTTP header.  Here is how the P3P site describes it:</p>
+<blockquote>
+<p>The Platform for Privacy Preferences Project (P3P) enables Websites to express their privacy practices in a standard format that can be retrieved automatically and interpreted easily by user agents.<br>I was using Internet Explorer, and IE looked for the P3P header.  It failed to find the P3P header, so IE killed the cookies in the IFrame (cookies in the main page worked just fine without a P3P header).</p>
+</blockquote>
+<h3 id="I-want-my-cookie"><a href="#I-want-my-cookie" class="headerlink" title="I want my cookie"></a>I want my cookie</h3><p>To enable cookies again, you have to get your web server to send a P3P header with the responses that it sends.  Here is how you can do it with IIS</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">httpProtocol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">customHeaders</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"p3p"</span> <span class="attr">value</span>=<span class="string">"CP=<span class="symbol">&amp;quot;</span>policy string goes here<span class="symbol">&amp;quot;</span>"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">customHeaders</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">httpProtocol</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Note that the quotation marks inside the p3p value are URL encoded</p>
+<p>I went into IIS and added this to our web.config file (for the site serving the IFrame) and the cookies in the IFrame started working.</p>
+<h3 id="What’s-your-P3P"><a href="#What’s-your-P3P" class="headerlink" title="What’s your P3P?"></a>What’s your P3P?</h3><p>So does it matter what’s in your P3P header?  From a technical perspective, you definitely need the <code>CP=</code> at the beginning, but you can put a random string after that, and IE will allow the cookies.  That’s how to get it to work - but what <em>should</em> you do?</p>
+<p>Ideally, you would generate a proper P3P string.  But P3P is an outdated standard - the W3C suspended work on P3P several years ago, and many browsers don’t support it.  Even the <a href="http://www.w3.org/P3P/details.html" title="W3C Instructions on creating a P3P Policy" target="_blank" rel="noopener">instructions</a> provided by the W3C are over a decade old and many of the links therein are broken.</p>
+<p>Nonetheless, I would recommend not putting specific policy statements into a P3P Compact Policy (in the P3P header) unless you have and adhere to the Privacy Practices specified by the statement.  For example, if you have <a href="http://www.w3.org/TR/P3P11/#compact_non_identifiable" title="W3C Definition for NID" target="_blank" rel="noopener">NID</a> in your P3P policy, which is shorthand for <a href="http://www.w3.org/TR/P3P11/#NON-IDENTIFIABLE" title="W3C Definition of Non-Identifiable" target="_blank" rel="noopener">NON-IDENTIFIABLE</a>, then you are making a statement that you do not collect personally identifiable information.  If you are, however, collecting personally identifiable information, someone may have grounds for a lawsuit against you.</p>
+<p>One option to consider is linking to your site’s privacy policy in the P3P header.  Here is Facebook’s P3P header:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CP="Facebook does not have a P3P policy. Learn why here: http://fb.me/p3p"</span><br></pre></td></tr></table></figure>
+<p> But it would be good to check with your legal counsel to determine the best way to define your P3P Policy.</p>
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p>P3P - <a href="http://www.w3.org/P3P/" title="P3P on w3.org" target="_blank" rel="noopener">W3C</a>, <a href="http://en.wikipedia.org/wiki/P3P" title="P3P on Wikipedia" target="_blank" rel="noopener">Wikipedia</a><br><a href="http://stackoverflow.com/questions/389456/cookie-blocked-not-saved-in-iframe-in-internet-explorer" title="Stack Overflow - Cookies Blocked in IFrame for IE" target="_blank" rel="noopener">Stack Overflow - Cookies Blocked in IFrame for IE</a><br><a href="http://stackoverflow.com/questions/6241376/how-to-configure-p3p-policy-on-azure" title="Stack Overflow - Configuring P3P in Azure" target="_blank" rel="noopener">Stack Overflow - Configuring P3P in Azure</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2012/12/14/cookies-and-iframes-dont-mix/" data-id="ckmdrz6l6001fg0ag3w9w4f4v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/01/25/bookmarklets-gone-awry-in-firefox/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Bookmarklets gone Awry in Firefox
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/11/30/whats-the-protocol/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">What&#39;s the Protocol?</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

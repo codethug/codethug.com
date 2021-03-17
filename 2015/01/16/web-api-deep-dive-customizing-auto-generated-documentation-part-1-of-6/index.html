@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Web API Deep Dive - Customizing Auto-Generated Documentation (Part 1 of 6) | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Microsoft’s ASP.Net Web API 2.2 allows you to easily create REST style APIs on an IIS website. Microsoft has some great documentation on how to get started with it, so I won’t rehash that here. Instea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web API Deep Dive - Customizing Auto-Generated Documentation (Part 1 of 6)">
+<meta property="og:url" content="http://codethug.com/2015/01/16/web-api-deep-dive-customizing-auto-generated-documentation-part-1-of-6/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="Microsoft’s ASP.Net Web API 2.2 allows you to easily create REST style APIs on an IIS website. Microsoft has some great documentation on how to get started with it, so I won’t rehash that here. Instea">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://blogmedia.codethug.com/blogmedia/2015/01/2015-01WebApiDocumentApiAssemblyIncludeXml.png">
+<meta property="og:image" content="http://blogmedia.codethug.com/blogmedia/2015/01/2015-01WebApiDocumentExtraAssemblyIncludeXml.png">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.031Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web API Deep Dive - Customizing Auto-Generated Documentation (Part 1 of 6)">
+<meta name="twitter:description" content="Microsoft’s ASP.Net Web API 2.2 allows you to easily create REST style APIs on an IIS website. Microsoft has some great documentation on how to get started with it, so I won’t rehash that here. Instea">
+<meta name="twitter:image" content="http://blogmedia.codethug.com/blogmedia/2015/01/2015-01WebApiDocumentApiAssemblyIncludeXml.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-web-api-deep-dive-customizing-auto-generated-documentation-part-1-of-6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Web API Deep Dive - Customizing Auto-Generated Documentation (Part 1 of 6)
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/01/16/web-api-deep-dive-customizing-auto-generated-documentation-part-1-of-6/">
+    <time datetime="2015-01-16T14:30:37.000Z" itemprop="datePublished">2015-01-16</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Web-API/">Web API</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Microsoft’s ASP.Net Web API 2.2 allows you to easily create REST style APIs on an IIS website. Microsoft has some <a href="http://www.asp.net/web-api" target="_blank" rel="noopener">great documentation</a> on how to get started with it, so I won’t rehash that here. Instead, I’m going to go a little deeper into some powerful features that can be used with Web API.</p>
+<ul>
+<li>Part 1 - Customizing auto-generated documentation (this article)</li>
+<li>Part 2 - <a href="/2015/01/23/web-api-http-response-codes">HTTP Response Codes</a></li>
+<li>Part 3 - <a href="/2015/01/30/web-api-exception-handling/">HTTP Error Codes from Exceptions</a></li>
+<li>Part 4 - <a href="/2015/02/06/web-api-deep-dive-odata-url-query-options-part-4-of-6/">OData URL Query Options</a></li>
+<li>Part 5 - <a href="/2015/02/13/web-api-deep-dive-dto-transformations-and-automapper-part-5-of-6/">DTO Transformations and Automapper</a></li>
+<li>Part 6 - <a href="/2015/02/20/web-api-deep-dive-ef-rollbacks/">Testing with EF Rollbacks across HTTP</a></li>
+</ul>
+<h3 id="Auto-generated-Documentation"><a href="#Auto-generated-Documentation" class="headerlink" title="Auto-generated Documentation"></a>Auto-generated Documentation</h3><p>API documentation is notoriously difficult to keep up to date. After you finish writing or updating a method on the API, you must then go to your documentation and make updates to it that correspond to the changes you made to the API. It’s easy to forget, and it’s hard to find the time. But Web API has the built-in ability to automatically generate help documentation pages for you. To set it up, follow the documentation at <a href="http://www.asp.net/web-api/overview/creating-web-apis/creating-api-help- pages" target="_blank" rel="noopener">http://www.asp.net/web-api/overview/creating-web-apis/creating-api-help-pages</a>.</p>
+<a id="more"></a>
+<p>As part of the setup, make sure that your API project is configured to output the XML documentation file.  To do this, right-click on your API project, click properties, then open the ‘Build’ tab and verify that it is configured to generate the XML documentation file:</p>
+<p><img src="http://blogmedia.codethug.com/blogmedia/2015/01/2015-01WebApiDocumentApiAssemblyIncludeXml.png" alt></p>
+<p>This will cause an XML file to be placed in the App_Data folder of your API project when you build your project.  This XML file is the data source for the auto-generated documentation.  The file should end up at <code>ApiProjectFolder\App_Data\MyApiProject.XML</code>.</p>
+<p>How does it document your API?  It uses reflection to find out where your API controllers are, the inputs and outputs for the actions on those controllers, and the properties on those inputs and outputs.  And if you’ve added XML comments to your controllers, actions, model classes, or model class properties, those XML comments automatically show up in the generated documentation.  When something changes in a method or on a model and you need to update the documentation for it, all you have to do is update the XML comments that are right beside it in your code.  This makes it significantly easier to keep your documentation up to date.</p>
+<h3 id="A-Proper-introduction-for-your-documentation"><a href="#A-Proper-introduction-for-your-documentation" class="headerlink" title="A Proper introduction for your documentation"></a>A Proper introduction for your documentation</h3><p>After installing the documentation generator, I wanted to customize the main landing page for the documentation , which is set up by default at /Help on a project’s site. This was very simple - all I had to do was edit <code>\Areas\HelpPage\Views\Help\Index.cshtml</code>. You can add whatever HTML you want here to introduce your API, provide links to other resources, adding a getting started guide for your API consumers, etc. Doing so can make it significantly easier for someone else to consume your API.  </p>
+<h3 id="Ordering-the-Controllers"><a href="#Ordering-the-Controllers" class="headerlink" title="Ordering the Controllers"></a>Ordering the Controllers</h3><p>By default, the list of API methods at <code>/Help</code> shows the controllers in a seemingly arbitrary fashion.  I wanted the documentation for the controllers to list them in a particular order that made sense for our application. Making this happen is a 3 part process:</p>
+<ol>
+<li><p>Open <code>\Areas\HelpPage\Controllers\HelpController.cs</code>. In there, find the Index method, and at the beginning of that method, add some lines of code that add each controller in the order that you want them to be displayed in your documentation.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">displayOrder = <span class="keyword">new</span> Dictionary&lt;Type, <span class="keyword">int</span>&gt;();</span><br><span class="line">displayOrder.Add(<span class="keyword">typeof</span>(IssueController), <span class="number">1</span>);</span><br><span class="line">displayOrder.Add(<span class="keyword">typeof</span>(ArticleController), <span class="number">2</span>);</span><br><span class="line">displayOrder.Add(<span class="keyword">typeof</span>(SubtitleController), <span class="number">3</span>);</span><br><span class="line">ViewBag.DisplayOrder = displayOrder;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Open <code>\Areas\HelpPage\Views\Help\Index.cshtml</code> and edit the foreach loop at the very bottom to look like this:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@foreach (var group in apiGroups</span><br><span class="line">.OrderBy(g =&gt; ViewBag.DisplayOrder.ContainsKey(g.Key.ControllerType) ?</span><br><span class="line">  ViewBag.DisplayOrder[g.Key.ControllerType] : Int32.MaxValue))</span><br><span class="line">&#123;</span><br><span class="line">    @Html.DisplayFor(m =&gt; group, "ApiGroup")</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Re-run your site, hit /Help to look at the help pages, and your controllers should be ordered as you directed.</p>
+</li>
+</ol>
+<p>What does this do?  In step 1, you’re creating an dictionary that contains the order in which your controllers should be displayed.  Then in part 2 you edit the razor <code>cshtml</code> page so that the apiGroups (each apiGroup represents a Web API controller) are sorted based on the data in the dictionary you created.</p>
+<h3 id="Documenting-Models-from-a-separate-assembly"><a href="#Documenting-Models-from-a-separate-assembly" class="headerlink" title="Documenting Models from a separate assembly"></a>Documenting Models from a separate assembly</h3><p>The API documentation displays data from an XML file, and that XML file is generated from the XML comments in your Web API project. This XML file only contains comments contained your Web API project - XML comments in other projects are ignored.  If you like to keep your model classes in a separate project, those model classes will not be documented out of the box.</p>
+<p>Here is how you can document your model classes that live a separate .csproj project:</p>
+<p><ol></ol></p>
+<li>Open the project properties for your models project, go to the ‘Build’ tab, and tell the project to generate XML documentation on build. Make note of where this file will be saved. Also note that these settings could be different for each build configuration, so you might need to set these settings for multiple build configurations (Debug, Release, etc.).<br><br><img src="http://blogmedia.codethug.com/blogmedia/2015/01/2015-01WebApiDocumentExtraAssemblyIncludeXml.png" alt><br><br>This will cause an XML file to be placed in the root folder of your Models project when you build your project.  The file should end up at <code>ModelsProjectFolder\Foo.Models.XML</code>.<br><br></li><br><li><br>Open the project properties for your Web API project, and in the ‘Build Events’ tab, add this to the post-build script (all on one line):<br><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">copy <span class="variable">$</span>(SolutionDir)Foo.Models\Foo.Models.XML</span><br><span class="line"> <span class="variable">$</span>(ProjectDir)\App_Data\Foo.Models.XML</span><br></pre></td></tr></table></figure><br><br>This will copy the XML file that contains the documentation from your Models project to your API project, which will allow the API documentation generator to access the XML comments on your model classes.  <code>Foo.Models</code> is the name of the project holding your Model classes, and <code>\Models.XML</code> is the folder and file name you specified in step 1.  After post-build, you should have a file at <code>ApiProjectFolder\App_Data\Foo.Models.XML</code>.<br></li>
+
+<p><li><br>This works great - until you use web deploy to deploy your API project.  When you do this, the extra XML file is ignored.  To tell web deploy to deploy your documentation XML file, customize the configuration to deploy the models XML file as follows.</li></p>
+<p>Open the csproj file for your API project for editing.  This is done by right-clicking on your API project in Solution Explorer, click ‘Unload Project’, then right-click on the API project again and click ‘Edit Project.’</p>
+<p>You should have an Import that looks like this:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Import</span> <span class="attr">Project</span>=<span class="string">"$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>After that line, add this, editing the names and locations of the XML files to match the ones in your project:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Target</span> <span class="attr">Name</span>=<span class="string">"CustomCollectXmlDocumentationFiles"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ItemGroup</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">_CustomFiles</span> <span class="attr">Include</span>=<span class="string">"App_Data\MyApiProject.XML"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">_CustomFiles</span> <span class="attr">Include</span>=<span class="string">"App_Data\Foo.Models.XML"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">FilesForPackagingFromProject</span> <span class="attr">Include</span>=<span class="string">"%(_CustomFiles.Identity)"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">DestinationRelativePath</span>&gt;</span>App_Data\%(Filename)%(Extension)<span class="tag">&lt;/<span class="name">DestinationRelativePath</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">FilesForPackagingFromProject</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ItemGroup</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Target</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">CopyAllFilesToSingleFolderForPackageDependsOn</span>&gt;</span></span><br><span class="line">      CustomCollectXmlDocumentationFiles;</span><br><span class="line">      $(CopyAllFilesToSingleFolderForPackageDependsOn);</span><br><span class="line">    <span class="tag">&lt;/<span class="name">CopyAllFilesToSingleFolderForPackageDependsOn</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">CopyAllFilesToSingleFolderForMsdeployDependsOn</span>&gt;</span></span><br><span class="line">      CustomCollectXmlDocumentationFiles;</span><br><span class="line">      $(CopyAllFilesToSingleFolderForMsdeployDependsOn);</span><br><span class="line">    <span class="tag">&lt;/<span class="name">CopyAllFilesToSingleFolderForMsdeployDependsOn</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">PropertyGroup</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Save the changes to your .csproj file, close the file, then right-click on your API project in Solution Explorer and click ‘Reload’</p>
+<p>This will instruct the Web Deploy packager to include both XML files when it deploys, which means the auto-generated documentation should include documentation for controllers, actions, classes and properties from both your API project and your Models project.</p>
+<h3 id="Closing"><a href="#Closing" class="headerlink" title="Closing"></a>Closing</h3><p>I hope this has helped you to see how to take the Web API auto generated documentation further than what is provided out of the box.  <a href="http://twitter.com/codethug" target="_blank" rel="noopener">Let me know</a> if you enhance the documentation in other ways.</p>
+<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a href="http://sedodream.com/2010/05/01/WebDeploymentToolMSDeployBuildPackageIncludingExtraFilesOrExcludingSpecificFiles.aspx" target="_blank" rel="noopener">Including Extra Files</a> with MSDeploy<br><a href="http://www.asp.net/mvc/overview/deployment/visual-studio-web-deployment/deploying-extra-files" target="_blank" rel="noopener">Deploying Extra Files</a><br><a href="http://visualstudiomagazine.com/articles/2014/09/01/web-api-documentation-tools.aspx" target="_blank" rel="noopener">Web API Documentation Tools</a><br><a href="https://helloreverb.com" target="_blank" rel="noopener">Swagger</a> - an better looking documentation generator<br><a href="https://github.com/domaindrivendev/Swashbuckle" target="_blank" rel="noopener">Swashbuckle</a>, a utility to help <a href="http://bitoftech.net/2014/08/25/asp-net-web-api-documentation-using-swagger/" target="_blank" rel="noopener">install Swagger</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2015/01/16/web-api-deep-dive-customizing-auto-generated-documentation-part-1-of-6/" data-id="ckmdrz6mh003lg0ag4dtozsgv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/01/23/web-api-http-response-codes/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Web API Deep Dive – HTTP Response Codes (Part 2 of 6)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/01/09/breaking-out-of-parallel-foreach/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Breaking out of Parallel.ForEach</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

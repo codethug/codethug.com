@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Web API Deep Dive - Testing with EF Rollbacks across HTTP (part 6 of 6) | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Microsoft’s ASP.Net Web API 2.2 allows you to easily create REST style APIs on an IIS website.  Microsoft has some great documentation on how to get started with it, so I won’t rehash that here.  Inst">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web API Deep Dive - Testing with EF Rollbacks across HTTP (part 6 of 6)">
+<meta property="og:url" content="http://codethug.com/2015/02/20/web-api-deep-dive-ef-rollbacks/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="Microsoft’s ASP.Net Web API 2.2 allows you to easily create REST style APIs on an IIS website.  Microsoft has some great documentation on how to get started with it, so I won’t rehash that here.  Inst">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web API Deep Dive - Testing with EF Rollbacks across HTTP (part 6 of 6)">
+<meta name="twitter:description" content="Microsoft’s ASP.Net Web API 2.2 allows you to easily create REST style APIs on an IIS website.  Microsoft has some great documentation on how to get started with it, so I won’t rehash that here.  Inst">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-web-api-deep-dive-ef-rollbacks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Web API Deep Dive - Testing with EF Rollbacks across HTTP (part 6 of 6)
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/02/20/web-api-deep-dive-ef-rollbacks/">
+    <time datetime="2015-02-20T14:30:34.000Z" itemprop="datePublished">2015-02-20</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Web-API/">Web API</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Microsoft’s ASP.Net Web API 2.2 allows you to easily create REST style APIs on an IIS website.  Microsoft has some <a href="http://www.asp.net/web-api" target="_blank" rel="noopener">great documentation</a> on how to get started with it, so I won’t rehash that here.  Instead, I’m going to go a little deeper into some powerful features that can be used with Web API.</p>
+<ul>
+<li>Part 1 - <a href="/2015/01/16/web-api-deep-dive-customizing-auto-generated-documentation-part-1-of-6">Customizing auto-generated documentation</a></li>
+<li>Part 2 - <a href="/2015/01/23/web-api-http-response-codes">HTTP Response Codes</a></li>
+<li>Part 3 - <a href="/2015/01/30/web-api-exception-handling/">HTTP Error Codes from Exceptions</a></li>
+<li>Part 4 - <a href="/2015/02/06/web-api-deep-dive-odata-url-query-options-part-4-of-6/">OData URL Query Options</a></li>
+<li>Part 5 - <a href="/2015/02/13/web-api-deep-dive-dto-transformations-and-automapper-part-5-of-6/">DTO Transformations and Automapper</a></li>
+<li>Part 6 - Testing with EF Rollbacks across HTTP (this article)</li>
+</ul>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>A few weeks ago I wrote an article called <a href="/2014/08/15/cleaning-up-ef-6-tests-with-transaction-rollbacks/">Cleaning Up EF 6 Tests With Transactions Rollbacks</a>, where I showed how to create integration tests that set up some data in a database, run a test against the data, and then roll back all changes to the data.  The rollback was possible because all of the changes to the data were wrapped up inside a transaction.</p>
+<p>This posts extends that idea, but instead of a test calling methods on a repository or service layer, this test makes an HTTP call against a Web API endpoint, while preserving the ability to revert all changes to the database as part of a transaction rollback.</p>
+<p>The interesting part here is that we will create a database context, start a transaction against that context, create some test data, and then spin up a Web API server that uses that same context.  When we’re done with our tests, we’ll roll back the transaction so that the database changes are all reverted.</p>
+<p><strong>2016-01-27 Update - clarified when Configuration is available in an API Controller</strong></p>
+<a id="more"></a>
+<h3 id="Base-API-Test-Class"><a href="#Base-API-Test-Class" class="headerlink" title="Base API Test Class"></a>Base API Test Class</h3><p>First, let’s look at the <code>TransactionTest</code> class that we created earlier.  If you haven’t seen this before, I’d recommend reviewing <a href="/2014/08/15/cleaning-up-ef-6-tests-with-transaction-rollbacks/">my earlier post</a>.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TransactionTest</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">protected</span> EntitiesV3 context;</span><br><span class="line">  <span class="keyword">protected</span> DbContextTransaction transaction;</span><br><span class="line"></span><br><span class="line">  [<span class="meta">AssemblyInitialize</span>]</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AssemblyStart</span>(<span class="params">TestContext testContext</span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    RetryDbConfiguration.SuspendExecutionStrategy = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  [<span class="meta">TestInitialize</span>]</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TransactionTestStart</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    context = <span class="keyword">new</span> EntitiesV3();</span><br><span class="line">    transaction = context.Database.BeginTransaction();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  [<span class="meta">TestCleanup</span>]</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TransactionTestEnd</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    transaction.Rollback();</span><br><span class="line">    transaction.Dispose();</span><br><span class="line">    context.Dispose();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  [<span class="meta">AssemblyCleanup</span>]</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">AssemblyEnd</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>  &#123;</span><br><span class="line">    RetryDbConfiguration.SuspendExecutionStrategy = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We’ve seen that before.  It allows us to create a test inside a database transaction that can be rolled back.  How do we extend this to Web API calls?  Here is the code:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">WebApiHostedTests</span> : <span class="title">TransactionTest</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> HttpServer server;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">string</span> baseurl = <span class="string">"http://localhost:50366/"</span>;</span><br><span class="line">	<span class="keyword">private</span> HttpClient client;</span><br><span class="line">	<span class="keyword">private</span> HttpRequestMessage request;</span><br><span class="line">	<span class="keyword">private</span> HttpResponseMessage response;</span><br><span class="line"></span><br><span class="line">	[<span class="meta">TestInitialize</span>]</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">WebApiHostedTestBaseStart</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">var</span> config = <span class="keyword">new</span> HttpConfiguration();</span><br><span class="line">		config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;</span><br><span class="line">		config.Properties[<span class="string">"context"</span>] = context;</span><br><span class="line">		WebApiConfig.Register(config);</span><br><span class="line">		server = <span class="keyword">new</span> HttpServer(config);</span><br><span class="line">		client = <span class="keyword">new</span> HttpClient(server);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[<span class="meta">TestCleanup</span>]</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">WebApiHostedTestBaseEnd</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">if</span> (request != <span class="literal">null</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			request.Dispose();</span><br><span class="line">			request = <span class="literal">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (response != <span class="literal">null</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			response.Dispose();</span><br><span class="line">			response = <span class="literal">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> TestHttpResponse&lt;T&gt; Get&lt;T&gt;(<span class="keyword">string</span> url)</span><br><span class="line">	&#123;</span><br><span class="line">		request = createRequest&lt;<span class="keyword">string</span>&gt;(url, <span class="string">"application/json"</span>,</span><br><span class="line">			HttpMethod.Get, <span class="literal">null</span>, <span class="keyword">new</span> JsonMediaTypeFormatter());</span><br><span class="line">		response = client.SendAsync(request).Result;</span><br><span class="line">		<span class="keyword">var</span> data = (T)((ObjectContent)(response.Content)).Value;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> TestHttpResponse&lt;T&gt;(response, data);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> HttpRequestMessage createRequest&lt;T&gt;(<span class="keyword">string</span> url, <span class="keyword">string</span> mthv,</span><br><span class="line">		HttpMethod method, T content, MediaTypeFormatter formatter)</span><br><span class="line">		<span class="keyword">where</span> T : <span class="keyword">class</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">var</span> request = <span class="keyword">new</span> HttpRequestMessage();</span><br><span class="line">		request.RequestUri = <span class="keyword">new</span> Uri(baseurl + url);</span><br><span class="line">		request.Headers.Accept.Add(</span><br><span class="line">          <span class="keyword">new</span> MediaTypeWithQualityHeaderValue(mthv));</span><br><span class="line">		request.Method = method;</span><br><span class="line">		request.Content = <span class="keyword">new</span> ObjectContent&lt;T&gt;(content, formatter);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Add authentication here if needed</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> request;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Let’s look at this one piece at a time.  First, we have the <code>WebApiHostedTestBaseStart</code>.  Because of the <code>[TestStart]</code> attribute, this will be run before each test is run.  Because this class inherits from the <code>TransactionTest</code> class, the <code>TransactionTestStart</code> method has already run, so we have a context ready.  The <code>WebApiHostedTestBaseStart</code> does the following:</p>
+<ul>
+<li>It creates an <code>HttpConfiguration</code> and adds the <code>context</code> as a property on this configuration.  (the <code>Properties</code> property is a collection of arbitrary objects that we can see inside our Web API code.  This allows us to pass the context into our Web Api project.  We’ll look at that momentarily)</li>
+<li>It creates an in-memory <code>HttpServer</code>, which allows us to run our Web API project in the test runner process without having to spin up IIS or any other web server.</li>
+<li>It creates an <code>HttpClient</code> and configures it to connect to our in-memory <code>HttpServer</code>.</li>
+</ul>
+<p>The <code>WebApiHostedTestBaseEnd</code> method runs after each test is run because of the <code>[TestCleanup]</code> attribute.  This cleans up the objects that we created in <code>WebApiHostedTestBaseStart</code>.</p>
+<p>The <code>Get</code> method, given a URL, makes a HTTP GET call to the server, receives JSON back from the server, and deserializes the JSON into a strongly typed object of type <code>T</code>.  The deserialization happens in this line:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> data = (T)((ObjectContent)(response.Content)).Value;</span><br></pre></td></tr></table></figure>
+<h3 id="TestHttpResponse"><a href="#TestHttpResponse" class="headerlink" title="TestHttpResponse"></a>TestHttpResponse</h3><p>The <code>Get</code> method then returns a TestHttpResponse, which is an object that contains the strongly typed <code>T</code> along with the raw HTTP response.  This allows our test to check the data that was returned, and it allows our test to check the HTTP response codes and headers that are returned.  A Web API is composed of many HTTP endpoints that should return various <a href="http://httpstatus.es/" target="_blank" rel="noopener">HTTP responses codes</a>, and this allows us to test those response codes.</p>
+<p></p><p>Here is the implementation of <code>TestHttpResponse</code>:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class TestHttpResponse&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TestHttpResponse</span>(<span class="params">HttpResponseMessage message, T data</span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="keyword">this</span>.Message = message;</span><br><span class="line">		<span class="keyword">this</span>.Data = data;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> HttpResponseMessage Message &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> T Data &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Context-Injection"><a href="#Context-Injection" class="headerlink" title="Context Injection"></a>Context Injection</h3><p>Next, we’ll make use of the context that this sets up for us.  In our API controller, we’ll need to grab the context from our <code>HttpConfiguration</code>.  <code>HttpConfiguration</code> is a property on all controllers that inherit from <code>ApiController</code>.  Our code above created and then injected the context into the configuration with this line:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.Properties[<span class="string">"context"</span>] = context;</span><br></pre></td></tr></table></figure>
+<p>And this is how we can make use of that context in our API Controllers:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> FooContext _context;</span><br><span class="line"><span class="keyword">private</span> FooContext context</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (_context == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Configuration == <span class="literal">null</span> || Configuration.Properties == <span class="literal">null</span></span><br><span class="line">                 || !Configuration.Properties.ContainsKey(<span class="string">"context"</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// No context was passed in from our tests</span></span><br><span class="line">                <span class="comment">// Create our context using the connection</span></span><br><span class="line">                <span class="comment">// string "FooContext" </span></span><br><span class="line">                context = <span class="keyword">new</span> FooContext();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// This is running inside an integration test, so use</span></span><br><span class="line">                <span class="comment">// the context that is provided by the test:</span></span><br><span class="line">                context = (FooContext)Configuration.Properties[<span class="string">"context"</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> _context;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2016-01-27 Update - The Configuration property cannot be used in the constructor for your API Controller, because it is not populated until after the controller is constructed.  If  you try to use Configuration in the constructor, it will be null.  Instead, it can be accessed on-the-fly by creating a property, such as seen above, that will only be used after the object is created.</p>
+<h3 id="Writing-a-Test"><a href="#Writing-a-Test" class="headerlink" title="Writing a Test"></a>Writing a Test</h3><p></p><p>Now that we have all of these great things set up, how do we use them?  We need to create a test class that inherits from <code>WebApiHostedTests</code>:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TestClass</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FooControllerTests</span> : <span class="title">WebApiHostedTests</span></span><br><span class="line">&#123;</span><br><span class="line">	[<span class="meta">TestMethod</span>]</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CallingGetItemByNameReturnsItem</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>	&#123;</span><br><span class="line">		<span class="comment">// Arrange</span></span><br><span class="line">		context.Items.Add(<span class="keyword">new</span> Item() &#123;Name = <span class="string">"Thing"</span>, Id = <span class="number">17</span>&#125;);</span><br><span class="line">		context.SaveChanges();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Act</span></span><br><span class="line">		<span class="keyword">var</span> url = <span class="keyword">string</span>.Format(<span class="string">"api/items/&#123;0&#125;"</span>, <span class="number">17</span>);</span><br><span class="line">		<span class="keyword">var</span> response = Get&lt;Item&gt;(url);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Assert</span></span><br><span class="line">		response.Message.StatusCode.Should().Be(HttpStatusCode.OK);</span><br><span class="line">		response.Data.Id.Should().Be(<span class="number">17</span>);</span><br><span class="line">		response.Data.Name.Should().Be(<span class="string">"Thing"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The goal of the code in this post is to make these tests simple and readable.  The test adds data to your context, makes an HTTP call, specifying what type of data it expects to get back (<code>Item</code> in this case), and it then verifies that the HTTP Response looks good and that the data that is returned looks good.  The test itself has minimal boilerplate code, and it cleans up after itself.</p>
+<h3 id="Closing"><a href="#Closing" class="headerlink" title="Closing"></a>Closing</h3><p>Thanks for sticking with me in this series on Web API.  Feel free to tweet me <a href="http://www.twitter.com/codethug" target="_blank" rel="noopener">@codethug</a> if you’d like to follow up on anything.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2015/02/20/web-api-deep-dive-ef-rollbacks/" data-id="ckmdrz6mi003og0ag5cfb1m5y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/03/20/mocking-dbset/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          A Simple interface for fluently mocking a DbSet
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/02/13/web-api-deep-dive-dto-transformations-and-automapper-part-5-of-6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Web API Deep Dive -  DTO Transformations and Automapper (Part 5 of 6)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

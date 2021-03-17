@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Migrating Umbraco from MySQL to MSSQL | Codethug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="So you’ve been running the Umbraco CMS for a while on MySQL, but you’ve been told you need to move it to Microsoft SQL Server. Does it sound intimidating? It doesn’t have to be. With the SQL script an">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Migrating Umbraco from MySQL to MSSQL">
+<meta property="og:url" content="http://codethug.com/2010/10/14/migrating-umbraco-from-mysql-to-mssql/index.html">
+<meta property="og:site_name" content="Codethug">
+<meta property="og:description" content="So you’ve been running the Umbraco CMS for a while on MySQL, but you’ve been told you need to move it to Microsoft SQL Server. Does it sound intimidating? It doesn’t have to be. With the SQL script an">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-03-17T03:54:50.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Migrating Umbraco from MySQL to MSSQL">
+<meta name="twitter:description" content="So you’ve been running the Umbraco CMS for a while on MySQL, but you’ve been told you need to move it to Microsoft SQL Server. Does it sound intimidating? It doesn’t have to be. With the SQL script an">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61949305-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="/" id="logo">
+        <!-- <i class="logo"></i> -->
+        <span class="site-title">Codethug</span>
+      </a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div class="profile" id="profile-nav">
+          <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128"><i class="fa fa-caret-down"></i></a>
+        </div>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+      
+        <td><a class="main-nav-link" href="/">Home</a></td>
+      
+        <td><a class="main-nav-link" href="/archives">Archives</a></td>
+      
+      <td>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://codethug.com"></form>
+      </td>
+      </tr>
+    </table>
+  </div>
+  
+</header>
+
+    <div class="outer">
+      <aside id="profile">
+  <div class="inner profile-inner">
+  	<div class="base-info profile-block">
+		  <img id="avatar" src="https://s.gravatar.com/avatar/e18193ec07249288118577b3b51c8834?s=128">
+      <h2 id="name">Tim Larson</h2>
+      <h3 id="title">Codethug</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>Salt Lake City, UT</span>
+      <!-- <a id="follow" href="null">FOLLOW</a> -->
+  	</div>
+    <!--<div class="article-info profile-block">
+      <div class="article-info-block">
+        59
+        <span>posts</span>
+      </div>
+      <div class="article-info-block">
+        0
+        <span>tag</span>
+      </div>
+    </div>-->
+    <div class="contact-info profile-block">
+      <table class="contact-list">
+        <tr>
+        
+          <td><a href="http://github.com/codethug" title="github"><i class="fa fa-github"></i></a></td>
+        
+          <td><a href="http://twitter.com/codethug" title="twitter"><i class="fa fa-twitter"></i></a></td>
+        
+          <td><a href="http://linkedin.com/in/larsontim" title="linkedin"><i class="fa fa-linkedin"></i></a></td>
+        
+          <td><a href="http://stackoverflow.com/users/133852/codethug" title="stack-overflow"><i class="fa fa-stack-overflow"></i></a></td>
+        
+          <td><a href="http://feeds.feedburner.com/CodeThug" title="rss"><i class="fa fa-rss"></i></a></td>
+        
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+      <section id="main"><article id="post-migrating-umbraco-from-mysql-to-mssql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Migrating Umbraco from MySQL to MSSQL
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2010/10/14/migrating-umbraco-from-mysql-to-mssql/">
+    <time datetime="2010-10-14T10:17:00.000Z" itemprop="datePublished">2010-10-14</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>So you’ve been running the Umbraco CMS for a while on MySQL, but you’ve been told you need to move it to Microsoft SQL Server. Does it sound intimidating? It doesn’t have to be. With the SQL script and instructions in this post, it’s not too bad. First, let’s start with an overview of the process.</p>
+<p>Overview:<br>1. Use the Umbraco installer scripts to create blank Umbraco tables on your SQL server<br>2. Set up a linked database in SQL Server to your MySQL database<br>3. Migrate the data (using my script below)<br>4. Update your web.config to point to the new database</p>
+<a id="more"></a>
+<p><span style="font-weight: bold;">Step 1 - Create a new database on SQL Server</span><br>First off, let’s hope you kept the original zip file you downloaded from the Umbraco site. Create a second IIS site and unzip the fresh Umbraco files there. Browse to the /install directory, and run through just enough steps to create a database on your SQL server. Once that database is in place, you can get rid of this new IIS site</p>
+<p><span style="font-weight: bold;">Step 2 - Add MySQL database as linked</span><br>There is much <a href="http://adventuresindotnet.blogspot.com/2010/10/migrating-umbraco-from-mysql-to-mssql.html" target="_blank" rel="noopener">better information at CodeProject</a>, but the basic idea involes installing the MySQL ODBC driver, add your MySQL server as a datasource, and add a ‘Linked Server’ in SQL Management Studio to your MySQL server as an ODBC connection.</p>
+<p><span style="font-weight: bold;">Step 3 - Migrate Data</span><br>You will want to customize the @dbName, @LinkedServerName, and @LinkedDbName variables appropriately, but the rest of it should work automatically. What’s happening here is that for each table we use default database collation for comparing strings, turn off IDENTITY_INSERT on tables with identity fields, and determine what fields uniquely identify each table. We then copy all data from the MySQL database to the SQL Server database, except for default records that already exist on tables in SQL Server.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> @hasIdentity <span class="built_in">bit</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @dbName <span class="built_in">varchar</span>(<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @fieldNames <span class="built_in">varchar</span>(<span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @LinkedServerName <span class="built_in">varchar</span>(<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @LinkedDbName <span class="built_in">varchar</span>(<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @tName sysname</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @fName sysname</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @IdentityFieldName sysname</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @<span class="keyword">sql</span> <span class="built_in">varchar</span>(<span class="number">8000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @cSQL <span class="keyword">nvarchar</span>(<span class="number">255</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @iSQL <span class="keyword">nvarchar</span>(<span class="number">255</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @numBefore <span class="built_in">INT</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @numAfter <span class="built_in">INT</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @numDesired <span class="built_in">INT</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @pkFieldName sysname</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @pkFieldType <span class="built_in">varchar</span>(<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @collateOptions <span class="built_in">varchar</span>(<span class="number">100</span>)</span><br><span class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @dbName = ‘Umbraco’</span><br><span class="line"><span class="keyword">SET</span> @LinkedServerName = ‘Umbraco_old’</span><br><span class="line"><span class="keyword">SET</span> @LinkedDbName = ‘wesupport’</span><br><span class="line"></span><br><span class="line">— <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">table</span> @tName <span class="keyword">in</span> the @dbName <span class="keyword">database</span></span><br><span class="line"><span class="keyword">IF</span> OBJECT_ID(‘tempdb..<span class="comment">#umbTables’) IS NOT NULL</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="comment">#umbTables</span></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_NAME <span class="keyword">INTO</span> <span class="comment">#umbTables</span></span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.TABLES</span><br><span class="line"><span class="keyword">WHERE</span> TABLE_CATALOG = @dbName <span class="keyword">ORDER</span> <span class="keyword">BY</span> TABLE_NAME</span><br><span class="line"><span class="keyword">WHILE</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> TOP <span class="number">1</span> TABLE_NAME <span class="keyword">FROM</span> <span class="comment">#umbTables)</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">1</span> @tName = TABLE_NAME <span class="keyword">from</span> <span class="comment">#umbTables</span></span><br><span class="line"></span><br><span class="line">— Find <span class="keyword">out</span> <span class="keyword">if</span> the <span class="keyword">table</span> has an <span class="keyword">identity</span> <span class="keyword">column</span></span><br><span class="line"><span class="keyword">SELECT</span> @hasIdentity = OBJECTPROPERTY(OBJECT_ID(@tName),</span><br><span class="line">‘TableHasIdentity’)</span><br><span class="line">— <span class="keyword">Allow</span> us <span class="keyword">to</span> mess <span class="keyword">with</span> the <span class="keyword">identity</span> <span class="keyword">field</span> explicitly</span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = ‘’</span><br><span class="line"><span class="keyword">IF</span> @hasIdentity = <span class="number">1</span> <span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = ‘<span class="keyword">SET</span> IDENTITY_INSERT ‘ +</span><br><span class="line">@tName + ‘ <span class="keyword">ON</span> ‘</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">— <span class="keyword">Get</span> a <span class="keyword">list</span> <span class="keyword">of</span> <span class="keyword">field</span> <span class="keyword">names</span></span><br><span class="line">— separated <span class="keyword">by</span> commas</span><br><span class="line"><span class="keyword">SET</span> @fieldNames = ‘’</span><br><span class="line"><span class="keyword">IF</span> OBJECT_ID(‘tempdb..<span class="comment">#umbFields’) IS NOT NULL</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="comment">#umbFields</span></span><br><span class="line"><span class="keyword">SELECT</span> COLUMN_NAME <span class="keyword">INTO</span> <span class="comment">#umbFields</span></span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.COLUMNS</span><br><span class="line"><span class="keyword">WHERE</span> TABLE_CATALOG = @dbName</span><br><span class="line"><span class="keyword">AND</span> TABLE_NAME = @tName</span><br><span class="line"><span class="keyword">WHILE</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> TOP <span class="number">1</span> COLUMN_NAME</span><br><span class="line"><span class="keyword">FROM</span> <span class="comment">#umbFields)</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">1</span> @fName = COLUMN_NAME</span><br><span class="line"><span class="keyword">from</span> <span class="comment">#umbFields</span></span><br><span class="line"><span class="keyword">SET</span> @fieldNames =</span><br><span class="line">@fieldNames + ‘ [‘ + @fName + ‘] ‘</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="comment">#umbFields</span></span><br><span class="line"><span class="keyword">WHERE</span> COLUMN_NAME = @fName</span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> TOP <span class="number">1</span> COLUMN_NAME</span><br><span class="line"><span class="keyword">from</span> <span class="comment">#umbFields)</span></span><br><span class="line"><span class="keyword">SET</span> @fieldNames = @fieldNames + ‘ , ‘</span><br><span class="line"></span><br><span class="line">— Figure <span class="keyword">out</span> <span class="keyword">if</span> this <span class="keyword">field</span></span><br><span class="line">— <span class="keyword">is</span> an <span class="keyword">identity</span> <span class="keyword">field</span></span><br><span class="line"><span class="keyword">IF</span> @hasIdentity = <span class="number">1</span> <span class="keyword">AND</span></span><br><span class="line">COLUMNPROPERTY(OBJECT_ID(@tName),</span><br><span class="line">@fName, ‘IsIdentity’) = <span class="number">1</span></span><br><span class="line"><span class="keyword">SET</span> @IdentityFieldName = @fName</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="keyword">IF</span> OBJECT_ID(‘tempdb..<span class="comment">#umbFields’) IS NOT NULL</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="comment">#umbFields</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @cSQL = ‘<span class="keyword">SELECT</span> @i = <span class="keyword">COUNT</span>(*) <span class="keyword">FROM</span> ‘ + @tName</span><br><span class="line">EXEC sp_executesql @cSQL, N’@i <span class="built_in">INT</span> <span class="keyword">OUT</span>’,</span><br><span class="line">@numBefore <span class="keyword">OUTPUT</span></span><br><span class="line"></span><br><span class="line">— OK, <span class="keyword">now</span> we copy the <span class="keyword">data</span> <span class="keyword">as</span> needed</span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = @<span class="keyword">sql</span> + <span class="built_in">CHAR</span>(<span class="number">10</span>) +</span><br><span class="line">‘ <span class="keyword">INSERT</span> <span class="keyword">INTO</span> ‘ + @tName +</span><br><span class="line">‘ ( ‘ + @fieldNames + ‘ ) ‘ +</span><br><span class="line">‘ <span class="keyword">SELECT</span> ‘ + @fieldNames + ‘ <span class="keyword">FROM</span> ‘ +</span><br><span class="line">‘ openquery(‘ + @LinkedServerName +</span><br><span class="line">‘, ‘’<span class="keyword">SELECT</span> <span class="keyword">FROM</span> ‘ +</span><br><span class="line">@LinkedDbName + ‘.’ + @tName +</span><br><span class="line">‘’’) newstuff ‘ +</span><br><span class="line">‘ <span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> ( <span class="keyword">SELECT</span> <span class="keyword">FROM</span> ‘ +</span><br><span class="line">@tName + ‘ mytable <span class="keyword">WHERE</span> ‘</span><br><span class="line"></span><br><span class="line">— <span class="keyword">Get</span> a <span class="keyword">list</span> <span class="keyword">of</span> primary <span class="keyword">keys</span> <span class="keyword">into</span> <span class="keyword">temporary</span> <span class="keyword">table</span></span><br><span class="line"><span class="keyword">IF</span> OBJECT_ID(‘tempdb..<span class="comment">#umbPKeys’) IS NOT NULL</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="comment">#umbPKeys</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="comment">#umbPKeys</span></span><br><span class="line">(COLUMN_NAME sysname, DATA_TYPE <span class="built_in">varchar</span>(<span class="number">50</span>))</span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> B.COLUMN_NAME</span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.TABLE_CONSTRAINTS A,</span><br><span class="line">INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B</span><br><span class="line"><span class="keyword">WHERE</span> CONSTRAINT_TYPE = ‘PRIMARY <span class="keyword">KEY</span>’</span><br><span class="line"><span class="keyword">AND</span> A.CONSTRAINT_NAME = B.CONSTRAINT_NAME</span><br><span class="line"><span class="keyword">AND</span> A.TABLE_NAME = @tName)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="comment">#umbPKeys SELECT B.COLUMN_NAME,</span></span><br><span class="line">C.DATA_TYPE</span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.TABLE_CONSTRAINTS A,</span><br><span class="line">INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> INFORMATION_SCHEMA.COLUMNS C</span><br><span class="line"><span class="keyword">ON</span> B.TABLE_NAME = C.TABLE_NAME</span><br><span class="line"><span class="keyword">AND</span> B.COLUMN_NAME = C.COLUMN_NAME</span><br><span class="line"><span class="keyword">AND</span> B.TABLE_CATALOG = C.TABLE_CATALOG</span><br><span class="line"><span class="keyword">WHERE</span> CONSTRAINT_TYPE = ‘PRIMARY <span class="keyword">KEY</span>’</span><br><span class="line"><span class="keyword">AND</span> A.CONSTRAINT_NAME = B.CONSTRAINT_NAME</span><br><span class="line"><span class="keyword">AND</span> A.TABLE_NAME = @tName</span><br><span class="line"><span class="keyword">ELSE</span> — The <span class="keyword">table</span> has <span class="keyword">no</span> primary <span class="keyword">keys</span>, so <span class="keyword">use</span></span><br><span class="line">— <span class="keyword">all</span> <span class="keyword">fields</span> <span class="keyword">to</span> <span class="keyword">match</span> <span class="keyword">records</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="comment">#umbPKeys</span></span><br><span class="line"><span class="keyword">SELECT</span> B.COLUMN_NAME, B.DATA_TYPE</span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.COLUMNS B</span><br><span class="line"><span class="keyword">WHERE</span> TABLE_CATALOG = @dbName</span><br><span class="line"><span class="keyword">AND</span> TABLE_NAME = @tName</span><br><span class="line"><span class="keyword">AND</span> DATA_TYPE != ‘ntext’</span><br><span class="line"></span><br><span class="line">— <span class="keyword">For</span> <span class="keyword">each</span> primary <span class="keyword">key</span> <span class="keyword">in</span> this <span class="keyword">table</span></span><br><span class="line"><span class="keyword">WHILE</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> TOP <span class="number">1</span> COLUMN_NAME</span><br><span class="line"><span class="keyword">FROM</span> <span class="comment">#umbPKeys)</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">1</span> @pkFieldName = COLUMN_NAME,</span><br><span class="line">@pkFieldType = DATA_TYPE <span class="keyword">from</span> <span class="comment">#umbPKeys</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @collateOptions = ‘’</span><br><span class="line"><span class="keyword">IF</span> @pkFieldType <span class="keyword">NOT</span> <span class="keyword">IN</span> (‘<span class="built_in">int</span>’,</span><br><span class="line">‘uniqueidentifier’, ‘<span class="built_in">smallint</span>’,</span><br><span class="line">‘<span class="built_in">tinyint</span>’, ‘<span class="built_in">bigint</span>’, ‘<span class="built_in">bit</span>’, ‘datetime’)</span><br><span class="line"><span class="keyword">SET</span> @collateOptions =</span><br><span class="line">‘ <span class="keyword">COLLATE</span> DATABASE_DEFAULT ‘</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = @<span class="keyword">sql</span> + ‘ mytable.[‘ + @pkFieldName +</span><br><span class="line">‘] ‘ + @collateOptions +</span><br><span class="line">‘ = newstuff.[‘ + @pkFieldName + ‘] ‘ +</span><br><span class="line">@collateOptions</span><br><span class="line"></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="comment">#umbPKeys</span></span><br><span class="line"><span class="keyword">WHERE</span> COLUMN_NAME = @pkFieldName</span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> TOP <span class="number">1</span> COLUMN_NAME</span><br><span class="line"><span class="keyword">FROM</span> <span class="comment">#umbPKeys)</span></span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = @<span class="keyword">sql</span> + ‘ <span class="keyword">AND</span> ‘</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = @<span class="keyword">sql</span> + ‘ ) ‘ + <span class="built_in">CHAR</span>(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">IF</span> @hasIdentity = <span class="number">1</span></span><br><span class="line"><span class="keyword">SET</span> @<span class="keyword">sql</span> = @<span class="keyword">sql</span> + ‘<span class="keyword">SET</span> IDENTITY_INSERT ‘ +</span><br><span class="line">@tName + ‘ <span class="keyword">OFF</span> ‘</span><br><span class="line"></span><br><span class="line">EXEC(@<span class="keyword">sql</span>)</span><br><span class="line">— PRINT @<span class="keyword">sql</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> @cSQL = ‘<span class="keyword">SELECT</span> @i = <span class="keyword">COUNT</span>() <span class="keyword">FROM</span> ‘ + @tName</span><br><span class="line">EXEC sp_executesql @cSQL, N’@i <span class="built_in">INT</span> <span class="keyword">OUT</span>’,</span><br><span class="line">@numAfter <span class="keyword">OUTPUT</span></span><br><span class="line"><span class="keyword">SET</span> @cSQL = ‘<span class="keyword">SELECT</span> @i = <span class="keyword">COUNT</span>() <span class="keyword">FROM</span> ‘ +</span><br><span class="line">‘ openquery(‘ + @LinkedServerName + ‘, ‘ +</span><br><span class="line">‘’’<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> ‘ + @LinkedDbName + ‘.’ +</span><br><span class="line">@tName + ‘’’)’</span><br><span class="line">EXEC sp_executesql @cSQL, N’@i <span class="built_in">INT</span> <span class="keyword">OUT</span>’,</span><br><span class="line">@numDesired <span class="keyword">OUTPUT</span></span><br><span class="line"></span><br><span class="line">PRINT @tName + ‘: <span class="keyword">From</span> ‘ +</span><br><span class="line"><span class="keyword">CAST</span>(@numBefore <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>) +</span><br><span class="line">‘ <span class="keyword">to</span> ‘ + <span class="keyword">CAST</span>(@numAfter <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>) +</span><br><span class="line">‘ (Goal: ‘ + <span class="keyword">CAST</span>(@numDesired <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>)</span><br><span class="line">+ ‘)’</span><br><span class="line"></span><br><span class="line"><span class="keyword">IF</span> OBJECT_ID(‘tempdb..<span class="comment">#umbPKeys’) IS NOT NULL</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="comment">#umbPKeys</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="comment">#umbTables WHERE TABLE_NAME = @tName</span></span><br><span class="line"><span class="keyword">SET</span> @IdentityFieldName = ‘’</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">— <span class="keyword">Cleanup</span></span><br><span class="line"><span class="keyword">IF</span> OBJECT_ID(‘tempdb..<span class="comment">#umbTables’) IS NOT NULL DROP TABLE #umbTables</span></span><br><span class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">OFF</span></span><br></pre></td></tr></table></figure>
+<p>4. <span style="font-weight: bold;">Update web.config</span><br>Go back to your original website and, after backing up your web.config file, open it up and find the setting under Configuration - AppSettings - umbracoDbDSN. Update it so it looks like this, but have it all on a single line (with your settings, of course):</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">key</span>=<span class="string">”umbracoDbDSN”</span> <span class="attr">value</span>=<span class="string">”server</span>=<span class="string">myServerName;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">database</span>=<span class="string">myDatabaseName;user</span> <span class="attr">id</span>=<span class="string">myUserID;</span> <span class="attr">password</span>=<span class="string">myPassword”</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Be sure to clear your web browser’s cache after doing all of this to make sure that it picks up a fresh copy of your site. And you should now have it connected to SQL Server. If you want, you can remove the linked server in SQL Management Studio to clean things up.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://codethug.com/2010/10/14/migrating-umbraco-from-mysql-to-mssql/" data-id="ckmdrz6ll0024g0ag28w2g9bd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2010/10/16/development-tools/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Development Tools
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/09/08/svn-trouble/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SVN Trouble</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+        <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">recent posts</h3>
+    <div class="widget">
+      <ul id="recent-post" class="no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" class="title">Caching with Attributes in .Net Core 5</a></p>
+              <p class="item-date"><time datetime="2021-03-17T18:22:57.000Z" itemprop="datePublished">2021-03-17</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/09/Mocking-Extension-Methods/" class="title">Mocking Extension Methods</a></p>
+              <p class="item-date"><time datetime="2017-09-09T16:21:30.000Z" itemprop="datePublished">2017-09-09</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2017/09/07/Chrome-58-and-Self-Signed-Certificates-in-IIS/" class="title">Chrome 58 and Self Signed Certificates in IIS</a></p>
+              <p class="item-date"><time datetime="2017-09-07T16:09:02.000Z" itemprop="datePublished">2017-09-07</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"></p> -->
+              <p class="item-title"><a href="/2016/02/19/Entity-Framework-Cache-Busting/" class="title">Entity Framework Cache Busting</a></p>
+              <p class="item-date"><time datetime="2016-02-19T20:08:05.000Z" itemprop="datePublished">2016-02-19</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-inner">
+              <!-- <p class="item-category"><a class="article-category-link" href="/categories/Net/">.Net</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Net/Testing/">Testing</a></p> -->
+              <p class="item-title"><a href="/2015/03/20/mocking-dbset/" class="title">A Simple interface for fluently mocking a DbSet</a></p>
+              <p class="item-date"><time datetime="2015-03-20T13:45:46.000Z" itemprop="datePublished">2015-03-20</time></p>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">October 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/12/">December 2008</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+  <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Tim Larson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
